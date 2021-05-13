@@ -35,8 +35,6 @@ func NewEnvironment(t *testing.T, router *mux.Router) *TestEnvironment {
 	}
 	testEnv.Config = cfg
 
-	cfg.Database = CreateTestDatabase(t, TestDatabaseConfig())
-
 	_, err = service.NewEnvironment(&testEnv.Environment)
 	if err != nil {
 		t.Fatal(err)

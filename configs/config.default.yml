@@ -1,6 +1,6 @@
 # generated-from:a420b9b5f4bfcd0ca84a59bf34ec949efe4a54abb264fb854b633ba5d2eb667c DO NOT REMOVE, DO UPDATE
 
-ACH Web Viewer:
+ACHWebViewer:
   Servers:
     Public:
       Bind:
@@ -8,19 +8,3 @@ ACH Web Viewer:
     Admin:
       Bind:
         Address: ":9595"
-  Database:
-    DatabaseName: "ach-web-viewer"
-    MySQL:
-      Address: "tcp(localhost:0)"
-      User: "ach-web-viewer"
-      Password: "ach-web-viewer"
-  Gateway:
-    ServiceName: "ach-web-viewer"
-    # Examples of how to set up this config.
-    # keys:
-    #   http:
-    #    urls:
-    #    - http://tumbler:8204/.well-known/jwks.json
-    #   file:
-    #     paths: 
-    #     - ./configs/gateway-jwks-sig-pub.json
