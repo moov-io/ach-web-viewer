@@ -1,0 +1,23 @@
+ProjectPath: "."
+
+Project:
+  # Github project id
+  ProjectID: "ach-web-viewer"
+  # Github org
+  OrgID: "moov-io"
+  # Human descriptive name for the project
+  ProjectName: "ACH Web Viewer"
+  Description: |
+    ACH Web Viewer is a service that loads and displays lists of ACH Files from various sources on a website.
+    This allows combining multiple sources of ACH files together for operators to review.
+  CodeOwners: "@adamdecaf"
+  OpenSource: true
+
+Templates:
+  MoovProject:
+    Run: true
+  GoService:
+    ServicePort: 8585
+    HealthPort: 9595
+  GoGithubActionsPublic:
+    - Executable: ach-web-viewer
