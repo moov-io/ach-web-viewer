@@ -1,0 +1,20 @@
+ACHWebViewer:
+  Display:
+    Format: "human-readable"
+    Masking:
+      AccountNumbers: true
+
+  Sources:
+    - id: "mergable"
+      filesystem:
+        paths:
+          - "./testdata/"
+    - id: "audittrail"
+      bucket:
+        url: "gs://moov-paygate-audittrail/"
+        paths:
+          - "files"
+      encryption:
+        gpg:
+          keyFile: "/Users/adam/code/src/github.com/moovfinancial/production/veridian/keys/audittrail/private-key"
+          # keyPassword: ""

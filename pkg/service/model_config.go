@@ -10,6 +10,9 @@ type GlobalConfig struct {
 type Config struct {
 	Servers ServerConfig
 	Clients *ClientConfig
+
+	Display DisplayConfig
+	Sources Sources
 }
 
 // ServerConfig - Groups all the http configs for the servers and ports that get opened.
@@ -26,4 +29,43 @@ type HTTPConfig struct {
 // BindAddress specifies where the http server should bind to.
 type BindAddress struct {
 	Address string
+}
+
+type DisplayConfig struct {
+	Format  string // e.g. "human-readable"
+	Masking MaskingConfig
+}
+
+type MaskingConfig struct {
+	AccountNumbers bool
+	Names          bool
+}
+
+type Sources []Source
+
+type Source struct {
+	ID string
+
+	Bucket     *BucketConfig
+	Filesystem *FilesystemConfig
+
+	Encryption *EncryptionConfig
+}
+
+type BucketConfig struct {
+	URL   string
+	Paths []string
+}
+
+type FilesystemConfig struct {
+	Paths []string
+}
+
+type EncryptionConfig struct {
+	GPG *GPG
+}
+
+type GPG struct {
+	KeyFile     string
+	KeyPassword string
 }

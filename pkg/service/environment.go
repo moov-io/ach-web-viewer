@@ -5,12 +5,12 @@ package service
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
+	_ "github.com/moov-io/ach-web-viewer"
 	"github.com/moov-io/base/config"
 	"github.com/moov-io/base/log"
 	"github.com/moov-io/base/stime"
 
-	_ "github.com/moov-io/ach-web-viewer"
+	"github.com/gorilla/mux"
 )
 
 // Environment - Contains everything thats been instantiated for this service.
@@ -56,8 +56,6 @@ func NewEnvironment(env *Environment) (*Environment, error) {
 	// router
 	if env.PublicRouter == nil {
 		env.PublicRouter = mux.NewRouter()
-
-		// @TODO add controller connections here
 	}
 
 	return env, nil

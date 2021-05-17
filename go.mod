@@ -5,11 +5,11 @@ module github.com/moov-io/ach-web-viewer
 go 1.15
 
 require (
-	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
-	github.com/google/gofuzz v1.2.0 // indirect
-	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
+	github.com/moov-io/ach v1.9.0
 	github.com/moov-io/base v0.19.0
 	github.com/stretchr/testify v1.7.0
+	gocloud.dev v0.23.0
+	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf // indirect
 )
