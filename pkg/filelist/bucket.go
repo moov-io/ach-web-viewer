@@ -95,15 +95,10 @@ func (ls *bucketLister) listFiles(cur *blob.ListIterator) ([]File, error) {
 			}
 			return nil, err
 		}
-		file, err := ls.GetFile(obj.Key)
-		if err != nil {
-			return nil, err
-		}
 		dir, name := filepath.Split(obj.Key)
 		out = append(out, File{
 			Name:        name,
 			StoragePath: dir,
-			File:        file,
 		})
 	}
 	return out, nil
