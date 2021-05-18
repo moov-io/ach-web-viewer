@@ -19,12 +19,9 @@ display:
 sources:
   - id: "audittrail"
     bucket:
-      url: "gcs://ach-storage/"
+      url: "gs://moov-paygate-audittrail/"
       paths:
-        - "./files/"
-    filesystem:
-      paths:
-        - "/data/ach/"
+        - "files"
     encryption:
       gpg:
         keyFile: "/keys/audit.priv"
