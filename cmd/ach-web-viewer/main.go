@@ -31,7 +31,7 @@ func main() {
 	// Register API routes with listers
 	listers := createFileListers(env.Config.Sources)
 	api.AppendRoutes(env.Logger, env.PublicRouter, listers)
-	web.AppendRoutes(env, listers)
+	web.AppendRoutes(env, listers, env.Config.Servers.Public.BasePath)
 
 	stopServers := env.RunServers(termListener)
 	defer stopServers()
