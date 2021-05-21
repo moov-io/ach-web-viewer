@@ -1,4 +1,8 @@
 ACHWebViewer:
+  Servers:
+    Public:
+      BasePath: "/ach"
+
   Display:
     Format: "human-readable"
     Masking:
@@ -11,10 +15,10 @@ ACHWebViewer:
           - "./testdata/"
     - id: "audittrail"
       bucket:
-        url: "gs://moov-paygate-audittrail/"
+        url: "gs://ach-audittrail/"
         paths:
           - "files"
       encryption:
         gpg:
-          keyFile: "/Users/adam/code/src/github.com/moovfinancial/production/veridian/keys/audittrail/private-key"
+          keyFile: "/conf/keys/audittrail.priv"
           # keyPassword: ""

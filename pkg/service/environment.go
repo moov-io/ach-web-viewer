@@ -56,6 +56,10 @@ func NewEnvironment(env *Environment) (*Environment, error) {
 	// router
 	if env.PublicRouter == nil {
 		env.PublicRouter = mux.NewRouter()
+
+		if basePath := env.Config.Servers.Public.BasePath; basePath != "" {
+			env.PublicRouter = env.PublicRouter.PathPrefix(basePath).Subrouter()
+		}
 	}
 
 	return env, nil

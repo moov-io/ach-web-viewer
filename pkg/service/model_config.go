@@ -23,7 +23,8 @@ type ServerConfig struct {
 
 // HTTPConfig configuration for running an http server
 type HTTPConfig struct {
-	Bind BindAddress
+	Bind     BindAddress
+	BasePath string
 }
 
 // BindAddress specifies where the http server should bind to.
