@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
-	"os"
 	"path/filepath"
 
 	"github.com/moov-io/ach"
@@ -20,17 +19,10 @@ func newFilesystemLister(sourceID string, cfg *service.FilesystemConfig) (*files
 	if cfg == nil {
 		return nil, errors.New("missing FilesystemConfig")
 	}
-	ls := &filesystemLister{
+	return &filesystemLister{
 		sourceID: sourceID,
-	}
-	for i := range cfg.Paths {
-		if fd, err := os.Stat(cfg.Paths[i]); err == nil && fd.IsDir() {
-			ls.dirs = append(ls.dirs, cfg.Paths[i])
-		} else {
-			return nil, fmt.Errorf("error reading %s: %v", cfg.Paths[i], err)
-		}
-	}
-	return ls, nil
+		dirs:     cfg.Paths,
+	}, nil
 }
 
 func (ls *filesystemLister) SourceID() string {
