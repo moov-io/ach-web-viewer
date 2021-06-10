@@ -1,0 +1,19 @@
+## v0.1.5 (Released 2021-06-09)
+
+IMPROVEMENTS
+
+- filelist: skip checking filepath stat info on service startup
+
+## v0.1.4 (Released 2021-05-21)
+
+IMPROVEMENTS
+
+- service: setup HTTP server to run off sub-path
+- web: include basePath in hyperlinks
+
+## v0.1.0 (Released 2021-05-18)
+
+Initial Release
+
+- Basic website [listing all Source files](http://localhost:8585/)
+   - Supporting filesystem reads and S3-compatiable (e.g. GCS) blob storage
