@@ -7,9 +7,9 @@ go 1.15
 require (
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.9.0
+	github.com/moov-io/ach v1.9.1
 	github.com/moov-io/base v0.19.0
 	github.com/stretchr/testify v1.7.0
 	gocloud.dev v0.23.0
-	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf // indirect
+	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf
 )
