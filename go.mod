@@ -11,5 +11,5 @@ require (
 	github.com/moov-io/base v0.19.0
 	github.com/stretchr/testify v1.7.0
 	gocloud.dev v0.23.0
-	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
+	golang.org/x/crypto v0.0.0-20210616213533-5ff15b29337e
 )
