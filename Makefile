@@ -1,4 +1,3 @@
-
 # generated-from:0f1cfb3f9faa0c83355794c5720cb80c30b77f4fcb2887d31d2887bd169db413 DO NOT REMOVE, DO UPDATE
 
 PLATFORM=$(shell uname -s | tr '[:upper:]' '[:lower:]')
@@ -52,28 +51,23 @@ teardown:
 docker: update
 	docker build --pull --build-arg VERSION=${VERSION} -t moov-io/ach-web-viewer:${VERSION} -f Dockerfile .
 	docker tag moov-io/ach-web-viewer:${VERSION} moov-io/ach-web-viewer:latest
-	
+
 	docker tag moov-io/ach-web-viewer:${VERSION} moov/ach-web-viewer:${VERSION}
 	docker tag moov-io/ach-web-viewer:${VERSION} moov/ach-web-viewer:latest
-	
+
 
 docker-push:
-	
 	docker push moov/ach-web-viewer:${VERSION}
 	docker push moov/ach-web-viewer:latest
-	
+
 .PHONY: dev-docker
 dev-docker: update
 	docker build --pull --build-arg VERSION=${DEV_VERSION} -t moov-io/ach-web-viewer:${DEV_VERSION} -f Dockerfile .
-	
 	docker tag moov-io/ach-web-viewer:${DEV_VERSION} moov/ach-web-viewer:${DEV_VERSION}
-	
 
 .PHONY: dev-push
 dev-push:
-	
 	docker push moov/ach-web-viewer:${DEV_VERSION}
-	
 
 # Extra utilities not needed for building
 
@@ -110,4 +104,3 @@ ifeq ($(OS),Windows_NT)
 else
 	CGO_ENABLED=1 GOOS=$(PLATFORM) go build -o bin/ach-web-viewer-$(PLATFORM)-amd64 cmd/ach-web-viewer/*
 endif
-
