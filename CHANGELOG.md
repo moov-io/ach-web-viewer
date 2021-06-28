@@ -1,3 +1,14 @@
+## v0.2.0 (Released 2021-06-28)
+
+ADDITIONS
+
+- web: include "Back" link when viewing a specific file
+
+BUILD
+
+- fix(deps): update golang.org/x/crypto commit hash to 5ff15b2
+- fix(deps): update module github.com/moov-io/ach to v1.9.3
+
 ## v0.1.5 (Released 2021-06-09)
 
 IMPROVEMENTS
