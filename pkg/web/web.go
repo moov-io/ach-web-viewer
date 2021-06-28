@@ -3,6 +3,7 @@ package web
 import (
 	"fmt"
 	"net/http"
+	"path"
 	"strings"
 
 	webdisplay "github.com/moov-io/ach-web-viewer/pkg/display/web"
@@ -32,7 +33,7 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 			fmt.Fprintf(w, "<strong>%s</strong> (%s)", files.SourceID, files.SourceType)
 			for i := range files.Files {
 				fullName := fmt.Sprintf("%s%s", files.Files[i].StoragePath, files.Files[i].Name)
-				fmt.Fprintf(w, `<br /><a href="%s/sources/%s/%s">%s</a>`, basePath, files.SourceID, fullName, files.Files[i].Name)
+				fmt.Fprintf(w, `<br /><a href=%s>%s</a>`, path.Join(basePath, "sources", files.SourceID, fullName), files.Files[i].Name)
 			}
 			fmt.Fprint(w, "<br /><br />")
 		}
@@ -42,13 +43,25 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		sourceID := mux.Vars(r)["sourceID"]
-		path := strings.TrimPrefix(r.URL.Path, fmt.Sprintf("%s/sources/%s/", basePath, sourceID))
+		fullPath := strings.TrimPrefix(r.URL.Path, fmt.Sprintf("%s/sources/%s/", basePath, sourceID))
 
-		file, err := listers.GetFile(sourceID, path)
+		file, err := listers.GetFile(sourceID, fullPath)
 		if err != nil {
-			fmt.Printf("ERROR: %v\n", err)
+			logger.Warn().Logf("ERROR: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 		}
+
+		w.Header().Set("Content-Type", "text/html")
+		fmt.Fprintf(w, `<html><a href="%s">Back</a><br /><pre>`, backHref(basePath))
 		webdisplay.File(w, &cfg, file)
+		w.Write([]byte("</pre></html>"))
 	}
+}
+
+func backHref(basePath string) string {
+	cleaned := path.Clean(basePath)
+	if cleaned == "." {
+		return "/"
+	}
+	return cleaned + "/"
 }
