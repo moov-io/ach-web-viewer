@@ -1,6 +1,6 @@
 <!-- generated-from:06a7eb50ee0171a2db8c865ec4dc51334a5b84d4afc551199e1a8048e78fa69c DO NOT REMOVE, DO UPDATE -->
 # ACH Web Viewer
-**[Purpose](README.md)** | **Configuration** | **[Running](RUNNING.md)** | **[Client](../pkg/client/README.md)**
+**[Purpose](README.md)** | **Configuration** | **[Running](RUNNING.md)**
 
 ---
 
