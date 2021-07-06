@@ -79,6 +79,7 @@ type getFileTemplate struct {
 	Filename string
 	BackURL  string
 	Contents string
+	Valid    error
 }
 
 var getFileTmpl = initTemplate("get-file", "/webui/file.html.tpl")
@@ -103,6 +104,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 			Filename: filepath.Base(fullPath),
 			BackURL:  backHref(basePath),
 			Contents: contents.String(),
+			Valid:    file.Validate(),
 		})
 		if err != nil {
 			fmt.Printf("ERROR: rendering template: %v\n", err)

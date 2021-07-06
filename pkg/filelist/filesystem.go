@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"path/filepath"
+	"strings"
 
 	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
@@ -60,5 +61,15 @@ func (ls *filesystemLister) GetFiles() (Files, error) {
 }
 
 func (ls *filesystemLister) GetFile(path string) (*ach.File, error) {
-	return ach.ReadFile(path)
+	file, err := ach.ReadFile(path)
+	if err != nil {
+		message := err.Error()
+		switch {
+		case strings.Contains(message, "*ach.BatchError"),
+			strings.Contains(message, "*ach.FieldError"),
+			strings.Contains(message, "*errors.errorString"):
+			return file, nil
+		}
+	}
+	return file, err
 }
