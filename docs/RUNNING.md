@@ -21,6 +21,26 @@ You can download [our docker image `moov/ach-web-viewer`](https://hub.docker.com
 
 ### Local Development
 
+Run a one-time setup command to install dev dependencies
+
 ```
-go run ./cmd/ach-web-viewer
+make install
+```
+
+(Optional) Update files in `webui/` and re-package them.
+
+```
+make update
+```
+
+Update code and run the server locally.
+
+```
+make run
+```
+
+**Suggested** Run the web viewer with an example directory. View [the examples in your browser](http://localhost:8585/ach/).
+
+```
+APP_CONFIG=./examples/config.yml go run ./cmd/ach-web-viewer
 ```

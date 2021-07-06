@@ -13,12 +13,12 @@ ACHWebViewer:
       filesystem:
         paths:
           - "./testdata/"
-    - id: "audittrail"
-      bucket:
-        url: "gs://ach-audittrail/"
-        paths:
-          - "files"
-      encryption:
-        gpg:
-          keyFile: "/conf/keys/audittrail.priv"
-          # keyPassword: ""
+    # - id: "audittrail"
+    #   bucket:
+    #     url: "gs://ach-audittrail/"
+    #     paths:
+    #       - "files"
+    #   encryption:
+    #     gpg:
+    #       keyFile: "/conf/keys/audittrail.priv"
+    #       # keyPassword: ""
