@@ -1,1 +1,116 @@
 /* CSS for ach-web-viewer */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  --background-color: #fafafa;
+  --header-background: rgba(255,255,255,.8);
+  --title-color: #101010;
+  --text-color: #333;
+  --accent-color: #219653;
+  --border-color: #f3f2f1;
+  font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    --background-color: #090909;
+    --header-background: rgba(37, 37, 37, 0.8);
+    --title-color: #fafafa;
+    --text-color: #bdbdbd;
+    --accent-color: #6fcf97;
+    --border-color: #333;
+  }
+}
+body {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.5;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 4rem 1fr 4rem;
+  grid-template-areas: "b t .";
+  align-items: center;
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  background-color: var(--header-background);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.1);
+}
+h1 {
+  grid-area: t;
+  margin: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--title-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+main {
+  padding: 1rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+.error {
+  margin: 1rem auto;
+  width: fit-content;
+  max-width: 90%;
+  padding: .75rem 1rem;
+  text-align: center;
+  background-color: rgba(235, 87, 87, 0.15);
+  border-radius: .5rem;
+}
+@media (prefers-color-scheme: dark) {
+  .error {
+    color: #EB5757;
+  }
+}
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1rem;
+  height: 1rem;
+  fill: var(--accent-color);
+}
+.source {
+  padding: .75rem 0;
+  font-size: 1rem;
+  color: var(--title-color);
+}
+.list {
+  width: 90ch;
+}
+.list a {
+  display: block;
+  padding: 1rem 0;
+  font-size: .9375rem;
+  font-weight: 500;
+  color: var(--text-color);
+  border-top: .5px solid var(--border-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.list .icon {
+  margin-right: .5rem;
+}

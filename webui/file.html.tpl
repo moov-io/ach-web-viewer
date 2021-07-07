@@ -1,19 +1,27 @@
 <!doctype html>
 <html>
   <head>
-    <title>{{ .Filename }} | ACH Viewer</title>
+    <title>{{ .Filename }} | ACH viewer</title>
     <link rel="stylesheet" href="{{ .BaseURL }}style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fefefe">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#202020">
   </head>
   <body>
-    <a href="{{ .BaseURL }}">Back</a>
-    <br />
-    <pre>{{ .Contents }}</pre>
-    <br />
-    {{ if eq .Valid nil }}
-    Valid: true
-    {{ else }}
-    <strong>Validation Error</strong>:
-    <br /><pre>{{ .Valid }}</pre>
+    <header>
+      <a href="{{ .BaseURL }}"><- Back</a>
+      <h1>{{ .Filename }}</h1>
+    </header>
+    {{ if ne .Valid nil }}
+      <div class="error">
+        {{ .Valid }}
+      </div>
     {{ end }}
+    <main>
+      <pre>{{ .Contents }}</pre>
+    </main>
   </body>
 </html>
