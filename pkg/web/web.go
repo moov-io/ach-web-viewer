@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"path"
 	"path/filepath"
+	"sort"
 	"strings"
+	"time"
 
 	webdisplay "github.com/moov-io/ach-web-viewer/pkg/display/web"
 	"github.com/moov-io/ach-web-viewer/pkg/filelist"
@@ -30,14 +32,20 @@ func AppendRoutes(env *service.Environment, listers filelist.Listers, basePath s
 }
 
 type listFile struct {
-	Path     string
-	Filename string
+	Path      string
+	Filename  string
+	CreatedAt time.Time
+}
+
+type listFileGroup struct {
+	DateTime string
+	Files    []listFile
 }
 
 type listFilesSource struct {
-	ID    string
-	Type  string
-	Files []listFile
+	ID     string
+	Type   string
+	Groups []listFileGroup
 }
 
 type listFilesTemplate struct {
@@ -66,14 +74,15 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 				fullName := fmt.Sprintf("%s%s", files.Files[i].StoragePath, files.Files[i].Name)
 
 				listings = append(listings, listFile{
-					Path:     path.Join(basePath, "sources", files.SourceID, fullName),
-					Filename: files.Files[i].Name,
+					Path:      path.Join(basePath, "sources", files.SourceID, fullName),
+					Filename:  files.Files[i].Name,
+					CreatedAt: files.Files[i].CreatedAt,
 				})
 			}
 			response.Sources = append(response.Sources, listFilesSource{
-				ID:    files.SourceID,
-				Type:  files.SourceType,
-				Files: listings,
+				ID:     files.SourceID,
+				Type:   files.SourceType,
+				Groups: groupFileListings(listings),
 			})
 		}
 		err = listFilesTmpl.Execute(w, response)
@@ -81,6 +90,31 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 			fmt.Printf("ERROR: rendering template: %v\n", err)
 		}
 	}
+}
+
+func groupFileListings(listings []listFile) (out []listFileGroup) {
+	format := func(t time.Time) string {
+		return t.Format("2006-01-02")
+	}
+	for i := range listings {
+		found := false
+		for k := range out {
+			if out[k].DateTime == format(listings[i].CreatedAt) {
+				found = true
+				out[k].Files = append(out[k].Files, listings[i])
+			}
+		}
+		if !found {
+			out = append(out, listFileGroup{
+				DateTime: format(listings[i].CreatedAt),
+				Files:    []listFile{listings[i]},
+			})
+		}
+	}
+	sort.Slice(out, func(i, j int) bool {
+		return out[i].DateTime > out[j].DateTime
+	})
+	return
 }
 
 type getFileTemplate struct {

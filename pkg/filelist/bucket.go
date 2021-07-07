@@ -99,6 +99,7 @@ func (ls *bucketLister) listFiles(cur *blob.ListIterator) ([]File, error) {
 		out = append(out, File{
 			Name:        name,
 			StoragePath: dir,
+			CreatedAt:   obj.ModTime,
 		})
 	}
 	return out, nil

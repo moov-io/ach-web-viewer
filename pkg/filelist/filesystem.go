@@ -41,15 +41,11 @@ func (ls *filesystemLister) GetFiles() (Files, error) {
 				return nil
 			}
 
-			file, err := ls.GetFile(path)
-			if err != nil {
-				return fmt.Errorf("error reading %s: %v", path, err)
-			}
 			dir, _ := filepath.Split(path)
 			out.Files = append(out.Files, File{
 				Name:        filepath.Base(path),
 				StoragePath: dir,
-				File:        file,
+				CreatedAt:   info.ModTime(),
 			})
 			return nil
 		})

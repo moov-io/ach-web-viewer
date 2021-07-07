@@ -2,6 +2,7 @@ package filelist
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
@@ -16,7 +17,7 @@ type Files struct {
 type File struct {
 	Name        string
 	StoragePath string
-	File        *ach.File
+	CreatedAt   time.Time
 }
 
 type Lister interface {
