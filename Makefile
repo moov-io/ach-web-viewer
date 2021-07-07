@@ -24,7 +24,7 @@ install:
 	go mod vendor
 
 update:
-	pkger -include /migrations -include /configs/config.default.yml
+	pkger -include /migrations -include /configs/config.default.yml -include /webui
 	go mod vendor
 
 build:

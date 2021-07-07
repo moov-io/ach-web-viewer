@@ -2,9 +2,10 @@
 <html>
   <head>
     <title>{{ .Filename }} | ACH Viewer</title>
+    <link rel="stylesheet" href="{{ .BaseURL }}style.css">
   </head>
   <body>
-    <a href="{{ .BackURL }}">Back</a>
+    <a href="{{ .BaseURL }}">Back</a>
     <br />
     <pre>{{ .Contents }}</pre>
     <br />

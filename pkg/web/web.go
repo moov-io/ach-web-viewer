@@ -22,6 +22,11 @@ import (
 func AppendRoutes(env *service.Environment, listers filelist.Listers, basePath string) {
 	env.PublicRouter.Methods("GET").Path("/").HandlerFunc(listFiles(env.Logger, listers, basePath))
 	env.PublicRouter.Methods("GET").PathPrefix("/sources/{sourceID}/").HandlerFunc(getFile(env.Logger, env.Config.Display, listers, basePath))
+
+	dir, _ := pkger.Open("/webui/")
+	if dir != nil {
+		env.PublicRouter.Methods("GET").Path("/style.css").Handler(http.StripPrefix(basePath, http.FileServer(dir)))
+	}
 }
 
 type listFile struct {
@@ -36,6 +41,7 @@ type listFilesSource struct {
 }
 
 type listFilesTemplate struct {
+	BaseURL string
 	Sources []listFilesSource
 }
 
@@ -51,7 +57,9 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 
 		w.Header().Set("Content-Type", "text/html")
 
-		var response listFilesTemplate
+		response := listFilesTemplate{
+			BaseURL: baseURL(basePath),
+		}
 		for _, files := range resp {
 			var listings []listFile
 			for i := range files.Files {
@@ -77,7 +85,7 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 
 type getFileTemplate struct {
 	Filename string
-	BackURL  string
+	BaseURL  string
 	Contents string
 	Valid    error
 }
@@ -102,7 +110,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 
 		err = getFileTmpl.Execute(w, getFileTemplate{
 			Filename: filepath.Base(fullPath),
-			BackURL:  backHref(basePath),
+			BaseURL:  baseURL(basePath),
 			Contents: contents.String(),
 			Valid:    file.Validate(),
 		})
@@ -114,7 +122,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 	}
 }
 
-func backHref(basePath string) string {
+func baseURL(basePath string) string {
 	cleaned := path.Clean(basePath)
 	if cleaned == "." {
 		return "/"

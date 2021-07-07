@@ -12,5 +12,6 @@ var _ = pkger.Include("/configs/config.default.yml")
 var _ = pkger.Include("/migrations/")
 
 // Load our HTML templates
+var _ = pkger.Include("/webui/style.css")
 var _ = pkger.Include("/webui/index.html.tpl")
 var _ = pkger.Include("/webui/file.html.tpl")

@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>ACH File Viewer</title>
+    <link rel="stylesheet" href="{{ .BaseURL }}style.css">
   </head>
   <body>
     {{ range $source := .Sources }}
