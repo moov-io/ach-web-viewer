@@ -1,3 +1,9 @@
+## v0.3.2 (Released 2021-07-07)
+
+IMPROVEMENTS
+
+- web: fix ordering of date headers and display
+
 ## v0.3.1 (Released 2021-07-07)
 
 IMPROVEMENTS
