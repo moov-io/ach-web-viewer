@@ -78,6 +78,7 @@ main {
   padding: .75rem 1rem;
   text-align: center;
   background-color: rgba(235, 87, 87, 0.15);
+  color: #ce4040;
   border-radius: .5rem;
 }
 @media (prefers-color-scheme: dark) {
@@ -94,7 +95,13 @@ main {
 }
 .source {
   padding: .75rem 0;
+  font-size: 1.25rem;
+  color: var(--title-color);
+}
+.date {
+  padding: 1.25rem 0 .75rem 0;
   font-size: 1rem;
+  font-weight: 500;
   color: var(--title-color);
 }
 .list {
@@ -106,11 +113,14 @@ main {
   font-size: .9375rem;
   font-weight: 500;
   color: var(--text-color);
-  border-top: .5px solid var(--border-color);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 .list .icon {
   margin-right: .5rem;
+}
+.list a,
+.date {
+  border-top: .5px solid var(--border-color);
 }
