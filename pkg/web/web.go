@@ -94,7 +94,7 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 
 func groupFileListings(listings []listFile) (out []listFileGroup) {
 	format := func(t time.Time) string {
-		return t.Format("January 2, 2006")
+		return t.Format("2006-01-02")
 	}
 	for i := range listings {
 		found := false
@@ -164,6 +164,13 @@ func baseURL(basePath string) string {
 	return cleaned + "/"
 }
 
+var templateFuncs template.FuncMap = map[string]interface{}{
+	"dateTime": func(when string, pattern string) string {
+		tt, _ := time.Parse("2006-01-02", when)
+		return tt.Format(pattern)
+	},
+}
+
 func initTemplate(name, path string) *template.Template {
 	fd, err := pkger.Open(path)
 	if err != nil {
@@ -176,5 +183,5 @@ func initTemplate(name, path string) *template.Template {
 		panic(fmt.Sprintf("error reading %s: %v", fd.Name(), err))
 	}
 
-	return template.Must(template.New(name).Parse(string(bs)))
+	return template.Must(template.New(name).Funcs(templateFuncs).Parse(string(bs)))
 }
