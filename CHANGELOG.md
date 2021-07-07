@@ -1,3 +1,10 @@
+## v0.3.0 (Released 2021-07-07)
+
+IMPROVEMENTS
+
+- web: improve style with fancy stylesheet
+- web: pass through optional validation error when viewing file
+
 ## v0.2.1 (Released 2021-06-28)
 
 This release contains MacOS and Windows binaries.
