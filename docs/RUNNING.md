@@ -44,3 +44,17 @@ make run
 ```
 APP_CONFIG=./examples/config.yml go run ./cmd/ach-web-viewer
 ```
+
+## Views
+
+### List all files
+
+![](./images/index.png)
+
+### View specific file
+
+![](./images/get-file.png)
+
+### View file with errors
+
+![](./images/get-file-error.png)

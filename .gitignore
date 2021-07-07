@@ -38,4 +38,5 @@ pkger*
 pkged.go
 cover.out
 
+.DS_Store
 /vendor/

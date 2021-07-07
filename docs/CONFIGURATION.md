@@ -11,22 +11,35 @@ Custom configuration for this application may be specified via an environment va
 - [Config Source Code](../pkg/service/model_config.go)
 - Full Configuration
 ```yaml
-  ACH Web Viewer:
+ACHWebViewer:
+  Servers:
+    Public:
+      BasePath: "/ach"
+      Bind:
+        Address: ":8585"
 
-    # Service configurations
-    Servers:
+  # Formatting for ACH files
+  Display:
+    Format: "human-readable"
+    Masking:
+      AccountNumbers: true
+      Names: false
 
-      # Public service configuration
-      Public:
-        Bind:
-          # Address and port to listen on.
-          Address: ":8585"
+  Sources:
+    - id: "mergable"
+      filesystem:
+        paths:
+          - "./testdata/"
 
-      # Health/Admin service configuration.
-      Admin:
-        Bind:
-          # Address and port to listen on.
-          Address: ":9595"
+    - id: "audittrail"
+      bucket:
+        url: "gs://ach-audittrail/"
+        paths:
+          - "files"
+      encryption:
+        gpg:
+          keyFile: "/conf/keys/audittrail.priv"
+          keyPassword: "secret"
 ```
 
 ---
