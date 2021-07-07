@@ -1,3 +1,9 @@
+## v0.3.1 (Released 2021-07-07)
+
+IMPROVEMENTS
+
+- web: improve display of date groups
+
 ## v0.3.0 (Released 2021-07-07)
 
 IMPROVEMENTS
