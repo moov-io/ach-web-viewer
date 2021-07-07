@@ -94,7 +94,7 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 
 func groupFileListings(listings []listFile) (out []listFileGroup) {
 	format := func(t time.Time) string {
-		return t.Format("2006-01-02")
+		return t.Format("January 2, 2006")
 	}
 	for i := range listings {
 		found := false
