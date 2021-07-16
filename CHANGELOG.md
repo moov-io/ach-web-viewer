@@ -1,3 +1,14 @@
+## v0.3.3 (Released 2021-07-16)
+
+IMPROVEMENTS
+
+- docs: include full config and screenshots of new design
+
+BUILD
+
+- fix(deps): update golang.org/x/crypto commit hash to a769d52
+- fix: Dockerfile to reduce vulnerabilities
+
 ## v0.3.2 (Released 2021-07-07)
 
 IMPROVEMENTS
