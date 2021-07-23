@@ -21,6 +21,8 @@ Docs: [docs](https://moov-io.github.io/ach-web-viewer/) | [open api specificatio
 
 This project  is actively used in production environments. Please star the project if you are interested in its progress. We are looking for community feedback so please try out our code or give us feedback!
 
+If you believe you have identified a security vulnerability please responsibly report the issue as via email to security@moov.io. Please do not post it to a public issue tracker.
+
 ## Getting Started
 
 Read through the [project docs](docs/README.md) over here to get an understanding of the purpose of this project and how to run it.
