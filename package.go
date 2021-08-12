@@ -9,7 +9,6 @@ import (
 
 // Add in all includes that pkger should embed into the application here
 var _ = pkger.Include("/configs/config.default.yml")
-var _ = pkger.Include("/migrations/")
 
 // Load our HTML templates
 var _ = pkger.Include("/webui/style.css")
