@@ -33,6 +33,7 @@ func AppendRoutes(env *service.Environment, listers filelist.Listers, basePath s
 
 type listFile struct {
 	Path      string
+	CleanPath string
 	Filename  string
 	CreatedAt time.Time
 }
@@ -73,8 +74,11 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 			for i := range files.Files {
 				fullName := fmt.Sprintf("%s%s", files.Files[i].StoragePath, files.Files[i].Name)
 
+				fullPath := filepath.Join(basePath, "sources", files.SourceID, fullName)
+
 				listings = append(listings, listFile{
-					Path:      path.Join(basePath, "sources", files.SourceID, fullName),
+					Path:      fullPath,
+					CleanPath: cleanPath(basePath, fullPath),
 					Filename:  files.Files[i].Name,
 					CreatedAt: files.Files[i].CreatedAt,
 				})
@@ -90,6 +94,11 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 			fmt.Printf("ERROR: rendering template: %v\n", err)
 		}
 	}
+}
+
+// cleanPath will strip fluff from paths so the web output is more clear where files come from.
+func cleanPath(baseURL, path string) string {
+	return filepath.Dir(strings.TrimPrefix(path, filepath.Join(baseURL, "sources"))) + "/"
 }
 
 func groupFileListings(listings []listFile) (out []listFileGroup) {

@@ -31,6 +31,9 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
 }
+.clean-path {
+  color: var(--accent-color);
+}
 a {
   color: var(--accent-color);
   text-decoration: none;
