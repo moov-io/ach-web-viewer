@@ -1,3 +1,14 @@
+## v0.3.5 (Released 2021-08-18)
+
+IMPROVEMENTS
+
+- web: display a bit of the parent location for a file
+
+BUILD
+
+- fix(deps): update module github.com/moov-io/ach to v1.11.0
+- fix(deps): update module github.com/moov-io/base to v0.23.0
+
 ## v0.3.4 (Released 2021-07-26)
 
 BUILD
