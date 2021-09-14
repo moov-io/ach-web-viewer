@@ -72,17 +72,16 @@ func (ls *bucketLister) GetFile(path string) (*ach.File, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	bs, err := maybeDecrypt(rdr, ls.gpgKey)
 	if err != nil {
 		rdr.Close()
 		return nil, err
 	}
+
 	rdr.Close()
-	file, err := ach.NewReader(bs).Read()
-	if err != nil {
-		return nil, err
-	}
-	return &file, nil
+
+	return readFile(bs)
 }
 
 func (ls *bucketLister) listFiles(cur *blob.ListIterator) ([]File, error) {
