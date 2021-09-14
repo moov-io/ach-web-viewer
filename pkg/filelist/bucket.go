@@ -56,10 +56,6 @@ func (ls *bucketLister) GetFiles() (Files, error) {
 		SourceType: "Bucket",
 	}
 	for i := range ls.paths {
-		if exists, _ := ls.buck.Exists(context.Background(), ls.paths[i]); !exists {
-			// Skip looking for this path as it doesn't seem to exist yet
-			continue
-		}
 		files, err := ls.listFiles(ls.buck.List(&blob.ListOptions{
 			Prefix: ls.paths[i],
 		}))
