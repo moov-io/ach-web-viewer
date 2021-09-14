@@ -2,6 +2,7 @@ package web
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -151,17 +152,20 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		var contents bytes.Buffer
 		webdisplay.File(&contents, &cfg, file)
 
+		validationError := errors.New("missing / partial file")
+		if file != nil {
+			validationError = file.Validate()
+		}
+
 		err = getFileTmpl.Execute(w, getFileTemplate{
 			Filename: filepath.Base(fullPath),
 			BaseURL:  baseURL(basePath),
 			Contents: contents.String(),
-			Valid:    file.Validate(),
+			Valid:    validationError,
 		})
 		if err != nil {
 			fmt.Printf("ERROR: rendering template: %v\n", err)
 		}
-
-		// TODO(adam): include err := file.Validate() response
 	}
 }
 
