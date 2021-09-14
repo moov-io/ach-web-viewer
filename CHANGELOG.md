@@ -1,3 +1,9 @@
+## v0.3.9 (Released 2021-09-14)
+
+IMPROVEMENTS
+
+- webui: Better styling for long filepaths
+
 ## v0.3.8 (Released 2021-09-14)
 
 IMPROVEMENTS
