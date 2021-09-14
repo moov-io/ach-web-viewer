@@ -1,3 +1,9 @@
+## v0.3.6 (Released 2021-09-13)
+
+BUG FIXES
+
+- filelist: skip missing directories
+
 ## v0.3.5 (Released 2021-08-18)
 
 IMPROVEMENTS
