@@ -1,3 +1,9 @@
+## v0.3.7 (Released 2021-09-14)
+
+BUG FIXES
+
+- web: guard for nil with ACH file validation
+
 ## v0.3.6 (Released 2021-09-13)
 
 BUG FIXES
