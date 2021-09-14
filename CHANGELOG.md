@@ -1,3 +1,9 @@
+## v0.3.8 (Released 2021-09-14)
+
+IMPROVEMENTS
+
+- filelist: show as much of partial files as possible
+
 ## v0.3.7 (Released 2021-09-14)
 
 BUG FIXES
