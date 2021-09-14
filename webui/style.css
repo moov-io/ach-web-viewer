@@ -33,6 +33,7 @@ body {
 }
 .clean-path {
   color: var(--accent-color);
+  font-size: .75rem;
 }
 a {
   color: var(--accent-color);
@@ -111,18 +112,15 @@ main {
   width: 90ch;
 }
 .list a {
-  display: block;
+  display: grid;
+  grid-template-columns: 1rem;
+  gap: .5rem;
   padding: 1rem 0;
   font-size: .9375rem;
   font-weight: 500;
   color: var(--text-color);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
-.list .icon {
-  margin-right: .5rem;
-}
+
 .list a,
 .date {
   border-top: .5px solid var(--border-color);
