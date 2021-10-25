@@ -11,9 +11,9 @@ import (
 	"github.com/moov-io/ach-web-viewer/internal/gpgx"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 
+	"github.com/ProtonMail/go-crypto/openpgp"
 	"gocloud.dev/blob"
 	_ "gocloud.dev/blob/gcsblob"
-	"golang.org/x/crypto/openpgp"
 )
 
 type bucketLister struct {

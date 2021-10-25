@@ -7,7 +7,7 @@ import (
 
 	"github.com/moov-io/ach-web-viewer/internal/gpgx"
 
-	"golang.org/x/crypto/openpgp"
+	"github.com/ProtonMail/go-crypto/openpgp"
 )
 
 func maybeDecrypt(r io.Reader, gpgKey openpgp.EntityList) (io.Reader, error) {
