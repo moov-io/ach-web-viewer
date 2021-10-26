@@ -1,3 +1,9 @@
+## v0.3.10 (Released 2021-10-26)
+
+IMPROVEMENTS
+
+- gpg: use ProtonMail crypto openpgp fork in place of deprecated golang.org/x/crypto
+
 ## v0.3.9 (Released 2021-09-14)
 
 IMPROVEMENTS
