@@ -130,7 +130,6 @@ func readMessage(armoredMessage []byte, keys openpgp.EntityList) ([]byte, error)
 	if len(keys) == 2 {
 		if md.SignedBy == nil || md.SignedBy.PublicKey == nil {
 			return nil, errors.New("verifying public key included, but message is not signed")
-			//} else if md.SignedBy.PublicKey.Fingerprint != keys[1].PrimaryKey.Fingerprint {
 		} else if bytes.Compare(md.SignedBy.PublicKey.Fingerprint, keys[1].PrimaryKey.Fingerprint) > 0 {
 			return nil, errors.New("signature pubkey doesn't match signing pubkey")
 		}
