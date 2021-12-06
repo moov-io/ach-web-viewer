@@ -10,10 +10,24 @@ type ListOpts struct {
 	StartDate, EndDate time.Time
 }
 
+func (opts ListOpts) Inside(when time.Time) bool {
+	afterStart := opts.StartDate.Before(when)
+	beforeEnd := when.Before(opts.EndDate)
+	return afterStart && beforeEnd
+}
+
+func DefaultListOptions(when time.Time) ListOpts {
+	return ListOpts{
+		StartDate: when.Add(-7 * 24 * time.Hour),
+		EndDate:   when.Add(1 * time.Hour),
+	}
+}
+
 func ReadListOptions(r *http.Request) (ListOpts, error) {
-	opts := ListOpts{
-		StartDate: time.Now().Add(-7 * 24 * time.Hour),
-		EndDate:   time.Now().Add(1 * time.Hour),
+	opts := DefaultListOptions(time.Now())
+
+	if r == nil || r.URL == nil {
+		return opts, nil
 	}
 
 	qry := r.URL.Query()

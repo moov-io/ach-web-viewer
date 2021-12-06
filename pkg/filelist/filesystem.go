@@ -41,6 +41,11 @@ func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
 				return nil
 			}
 
+			// Skip this file if it's outside of our query params
+			if !opts.Inside(info.ModTime()) {
+				return nil
+			}
+
 			dir, _ := filepath.Split(path)
 			out.Files = append(out.Files, File{
 				Name:        filepath.Base(path),

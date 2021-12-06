@@ -50,9 +50,14 @@ type listFilesSource struct {
 	Groups []listFileGroup
 }
 
+type listFilesOptions struct {
+	TimeRangeMin, TimeRangeMax time.Time
+}
+
 type listFilesTemplate struct {
 	BaseURL string
 	Sources []listFilesSource
+	Options listFilesOptions
 }
 
 var listFilesTmpl = initTemplate("list-files", "/webui/index.html.tpl")
@@ -75,6 +80,10 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 
 		response := listFilesTemplate{
 			BaseURL: baseURL(basePath),
+			Options: listFilesOptions{
+				TimeRangeMin: opts.StartDate,
+				TimeRangeMax: opts.EndDate,
+			},
 		}
 		for _, files := range resp {
 			var listings []listFile
@@ -187,6 +196,14 @@ var templateFuncs template.FuncMap = map[string]interface{}{
 	"dateTime": func(when string, pattern string) string {
 		tt, _ := time.Parse("2006-01-02", when)
 		return tt.Format(pattern)
+	},
+	"startDateParam": func(end time.Time) string {
+		start := end.Add(-7 * 24 * time.Hour)
+		return fmt.Sprintf("?startDate=%s&endDate=%s", start.Format("2006-01-02"), end.Format("2006-01-02"))
+	},
+	"endDateParam": func(start time.Time) string {
+		end := start.Add(7 * 24 * time.Hour)
+		return fmt.Sprintf("?startDate=%s&endDate=%s", start.Format("2006-01-02"), end.Format("2006-01-02"))
 	},
 }
 

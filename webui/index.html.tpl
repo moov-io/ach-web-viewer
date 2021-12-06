@@ -30,6 +30,10 @@
           {{ end }}
         {{ end }}
       {{ end }}
+
+      <span>
+        <a href="{{ startDateParam .Options.TimeRangeMin }}">Previous</a> / <a href="{{ endDateParam .Options.TimeRangeMax }}">Next</a>
+      </span>
     </main>
   </body>
 </html>

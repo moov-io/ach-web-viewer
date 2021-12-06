@@ -56,7 +56,7 @@ func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 		SourceType: "Bucket",
 	}
 	for i := range ls.paths {
-		files, err := ls.listFiles(ls.buck.List(&blob.ListOptions{
+		files, err := ls.listFiles(opts, ls.buck.List(&blob.ListOptions{
 			Prefix: ls.paths[i],
 		}))
 		if err != nil {
@@ -84,7 +84,7 @@ func (ls *bucketLister) GetFile(path string) (*ach.File, error) {
 	return readFile(bs)
 }
 
-func (ls *bucketLister) listFiles(cur *blob.ListIterator) ([]File, error) {
+func (ls *bucketLister) listFiles(opts ListOpts, cur *blob.ListIterator) ([]File, error) {
 	var out []File
 	for {
 		obj, err := cur.Next(context.Background())
@@ -94,6 +94,12 @@ func (ls *bucketLister) listFiles(cur *blob.ListIterator) ([]File, error) {
 			}
 			return nil, err
 		}
+
+		// Skip this file if it's outside of our query params
+		if !opts.Inside(obj.ModTime) {
+			continue
+		}
+
 		dir, name := filepath.Split(obj.Key)
 		out = append(out, File{
 			Name:        name,
