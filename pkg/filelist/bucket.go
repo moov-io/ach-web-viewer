@@ -50,7 +50,7 @@ func (ls *bucketLister) SourceID() string {
 	return ls.sourceID
 }
 
-func (ls *bucketLister) GetFiles() (Files, error) {
+func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 	out := Files{
 		SourceID:   ls.sourceID,
 		SourceType: "Bucket",

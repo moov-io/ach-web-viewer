@@ -30,7 +30,7 @@ func (ls *filesystemLister) SourceID() string {
 	return ls.sourceID
 }
 
-func (ls *filesystemLister) GetFiles() (Files, error) {
+func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
 	out := Files{
 		SourceID:   ls.sourceID,
 		SourceType: "Filesystem",
