@@ -1,3 +1,10 @@
+## v0.5.0 (Released 2021-12-13)
+
+IMPROVEMENTS
+
+- filelist: support reading ListOpts from http endpoints
+- web: print "Previous" and "Next" pagination links
+
 ## v0.4.0 (Released 2021-11-08)
 
 BREAKING CHANGES
