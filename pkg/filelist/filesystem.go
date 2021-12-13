@@ -30,7 +30,7 @@ func (ls *filesystemLister) SourceID() string {
 	return ls.sourceID
 }
 
-func (ls *filesystemLister) GetFiles() (Files, error) {
+func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
 	out := Files{
 		SourceID:   ls.sourceID,
 		SourceType: "Filesystem",
@@ -38,6 +38,11 @@ func (ls *filesystemLister) GetFiles() (Files, error) {
 	for i := range ls.dirs {
 		err := filepath.Walk(ls.dirs[i], func(path string, info fs.FileInfo, err error) error {
 			if err != nil || info.IsDir() {
+				return nil
+			}
+
+			// Skip this file if it's outside of our query params
+			if !opts.Inside(info.ModTime()) {
 				return nil
 			}
 

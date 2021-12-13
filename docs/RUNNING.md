@@ -39,7 +39,7 @@ Update code and run the server locally.
 make run
 ```
 
-**Suggested** Run the web viewer with an example directory. View [the examples in your browser](http://localhost:8585/ach/).
+**Suggested** Run the web viewer with an example directory. View [the examples in your browser](http://localhost:8585/ach/?startDate=2020-01-01).
 
 ```
 APP_CONFIG=./examples/config.yml go run ./cmd/ach-web-viewer

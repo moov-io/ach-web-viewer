@@ -24,15 +24,15 @@ type Lister interface {
 	SourceID() string
 
 	GetFile(path string) (*ach.File, error)
-	GetFiles() (Files, error)
+	GetFiles(opts ListOpts) (Files, error)
 }
 
 type Listers []Lister
 
-func (ls Listers) GetFiles() (map[string]Files, error) {
+func (ls Listers) GetFiles(opts ListOpts) (map[string]Files, error) {
 	out := make(map[string]Files)
 	for i := range ls {
-		files, err := ls[i].GetFiles()
+		files, err := ls[i].GetFiles(opts)
 		if err != nil {
 			return out, err
 		}
