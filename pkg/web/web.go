@@ -166,10 +166,14 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		w.Header().Set("Content-Type", "text/html")
 
 		var contents bytes.Buffer
-		webdisplay.File(&contents, &cfg, file.Contents)
+		if file != nil && file.Contents != nil {
+			webdisplay.File(&contents, &cfg, file.Contents)
+		} else {
+			contents.WriteString("file not found...")
+		}
 
 		validationError := errors.New("missing / partial file")
-		if file != nil {
+		if file != nil && file.Contents != nil {
 			validationError = file.Contents.Validate()
 		}
 
