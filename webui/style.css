@@ -141,3 +141,12 @@ main {
 .pagination a:hover {
   color: var(--accent-color);
 }
+
+td#metadata-header {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+td.metadata-key {
+    font-weight: bold;
+}

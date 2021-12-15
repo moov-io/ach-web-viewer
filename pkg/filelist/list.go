@@ -17,13 +17,14 @@ type Files struct {
 type File struct {
 	Name        string
 	StoragePath string
+	Contents    *ach.File
 	CreatedAt   time.Time
 }
 
 type Lister interface {
 	SourceID() string
 
-	GetFile(path string) (*ach.File, error)
+	GetFile(path string) (*File, error)
 	GetFiles(opts ListOpts) (Files, error)
 }
 
@@ -64,7 +65,7 @@ func createLister(src service.Source) (Lister, error) {
 	return nil, fmt.Errorf("unknown source: %#v", src)
 }
 
-func (ls Listers) GetFile(sourceID, path string) (*ach.File, error) {
+func (ls Listers) GetFile(sourceID, path string) (*File, error) {
 	for i := range ls {
 		if ls[i].SourceID() == sourceID {
 			return ls[i].GetFile(path)

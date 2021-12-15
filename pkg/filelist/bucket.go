@@ -7,7 +7,6 @@ import (
 	"io"
 	"path/filepath"
 
-	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/internal/gpgx"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 
@@ -67,7 +66,7 @@ func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 	return out, nil
 }
 
-func (ls *bucketLister) GetFile(path string) (*ach.File, error) {
+func (ls *bucketLister) GetFile(path string) (*File, error) {
 	rdr, err := ls.buck.NewReader(context.Background(), path, nil)
 	if err != nil {
 		return nil, err
@@ -81,7 +80,16 @@ func (ls *bucketLister) GetFile(path string) (*ach.File, error) {
 
 	rdr.Close()
 
-	return readFile(bs)
+	_, name := filepath.Split(path)
+
+	file, err := readFile(bs)
+
+	return &File{
+		Name:        name,
+		StoragePath: path,
+		Contents:    file,
+		CreatedAt:   rdr.ModTime(),
+	}, err
 }
 
 func (ls *bucketLister) listFiles(opts ListOpts, cur *blob.ListIterator) ([]File, error) {

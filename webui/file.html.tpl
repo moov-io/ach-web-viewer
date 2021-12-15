@@ -22,6 +22,20 @@
     {{ end }}
     <main>
       <pre>{{ .Contents }}</pre>
+      <hr />
+      <table>
+        <thead>
+          <tr colspan="2">
+            <td id="metadata-header">File Metadata</td>
+          </tr>
+        </thead>
+        {{ range $key, $value := .Metadata }}
+        <tr>
+          <td class="metadata-key">{{ $key }}</td>
+          <td>{{ $value }}</td>
+        </tr>
+        {{ end }}
+      </table>
     </main>
   </body>
 </html>

@@ -147,6 +147,7 @@ type getFileTemplate struct {
 	BaseURL  string
 	Contents string
 	Valid    error
+	Metadata map[string]string
 }
 
 var getFileTmpl = initTemplate("get-file", "/webui/file.html.tpl")
@@ -165,11 +166,15 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		w.Header().Set("Content-Type", "text/html")
 
 		var contents bytes.Buffer
-		webdisplay.File(&contents, &cfg, file)
+		if file != nil && file.Contents != nil {
+			webdisplay.File(&contents, &cfg, file.Contents)
+		} else {
+			contents.WriteString("file not found...")
+		}
 
 		validationError := errors.New("missing / partial file")
-		if file != nil {
-			validationError = file.Validate()
+		if file != nil && file.Contents != nil {
+			validationError = file.Contents.Validate()
 		}
 
 		err = getFileTmpl.Execute(w, getFileTemplate{
@@ -177,11 +182,22 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 			BaseURL:  baseURL(basePath),
 			Contents: contents.String(),
 			Valid:    validationError,
+			Metadata: setMetadata(file),
 		})
 		if err != nil {
 			fmt.Printf("ERROR: rendering template: %v\n", err)
 		}
 	}
+}
+
+func setMetadata(file *filelist.File) map[string]string {
+	out := make(map[string]string)
+
+	if file != nil {
+		out["Created At"] = file.CreatedAt.Format(time.RFC1123)
+	}
+
+	return out
 }
 
 func baseURL(basePath string) string {

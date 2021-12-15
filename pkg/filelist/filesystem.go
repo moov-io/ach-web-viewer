@@ -6,8 +6,8 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
-	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 )
 
@@ -61,10 +61,31 @@ func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
 	return out, nil
 }
 
-func (ls *filesystemLister) GetFile(path string) (*ach.File, error) {
+func (ls *filesystemLister) GetFile(path string) (*File, error) {
+	path = filepath.Clean(path)
+
+	if strings.Contains(path, "..") || strings.HasPrefix(path, "/") {
+		return nil, errors.New("invalid path")
+	}
+
 	fd, err := os.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("problem opening %s: %v", path, err)
 	}
-	return readFile(fd)
+
+	_, name := filepath.Split(fd.Name())
+
+	file, err := readFile(fd)
+
+	var stat fs.FileInfo
+	if fd != nil {
+		stat, _ = fd.Stat()
+	}
+
+	return &File{
+		Name:        name,
+		StoragePath: fd.Name(),
+		Contents:    file,
+		CreatedAt:   stat.ModTime(),
+	}, err
 }
