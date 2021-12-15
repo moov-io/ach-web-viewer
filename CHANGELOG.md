@@ -1,3 +1,18 @@
+## v0.6.0 (Released 2021-12-14)
+
+IMPROVEMENTS
+
+- web: include helpful links section
+- web: include metadata section in response
+
+BUG FIXES
+
+- fix: nil checks found via linting, path traversal
+
+BUILD
+
+- fix(deps): update module github.com/moov-io/base to v0.27.1
+
 ## v0.5.0 (Released 2021-12-13)
 
 IMPROVEMENTS
