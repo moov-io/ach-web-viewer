@@ -8,3 +8,7 @@ ACHWebViewer:
     Admin:
       Bind:
         Address: ":9595"
+  Display:
+    HelpfulLinks:
+      Corrections: "https://moov-io.github.io/ach/changes/"
+      Returns: "https://moov-io.github.io/ach/returns/"

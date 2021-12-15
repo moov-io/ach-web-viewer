@@ -143,11 +143,12 @@ func groupFileListings(listings []listFile) (out []listFileGroup) {
 }
 
 type getFileTemplate struct {
-	Filename string
-	BaseURL  string
-	Contents string
-	Valid    error
-	Metadata map[string]string
+	Filename     string
+	BaseURL      string
+	Contents     string
+	Valid        error
+	Metadata     map[string]string
+	HelpfulLinks service.HelpfulLinks
 }
 
 var getFileTmpl = initTemplate("get-file", "/webui/file.html.tpl")
@@ -178,11 +179,12 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		}
 
 		err = getFileTmpl.Execute(w, getFileTemplate{
-			Filename: filepath.Base(fullPath),
-			BaseURL:  baseURL(basePath),
-			Contents: contents.String(),
-			Valid:    validationError,
-			Metadata: setMetadata(file),
+			Filename:     filepath.Base(fullPath),
+			BaseURL:      baseURL(basePath),
+			Contents:     contents.String(),
+			Valid:        validationError,
+			Metadata:     setMetadata(file),
+			HelpfulLinks: cfg.HelpfulLinks,
 		})
 		if err != nil {
 			fmt.Printf("ERROR: rendering template: %v\n", err)

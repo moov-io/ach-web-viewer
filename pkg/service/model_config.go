@@ -33,13 +33,19 @@ type BindAddress struct {
 }
 
 type DisplayConfig struct {
-	Format  string // e.g. "human-readable"
-	Masking MaskingConfig
+	Format       string // e.g. "human-readable"
+	Masking      MaskingConfig
+	HelpfulLinks HelpfulLinks
 }
 
 type MaskingConfig struct {
 	AccountNumbers bool
 	Names          bool
+}
+
+type HelpfulLinks struct {
+	Corrections string
+	Returns     string
 }
 
 type Sources []Source

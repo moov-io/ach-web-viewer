@@ -23,12 +23,8 @@
     <main>
       <pre>{{ .Contents }}</pre>
       <hr />
+      <span class="metadata-header">File Metadata</span>
       <table>
-        <thead>
-          <tr colspan="2">
-            <td id="metadata-header">File Metadata</td>
-          </tr>
-        </thead>
         {{ range $key, $value := .Metadata }}
         <tr>
           <td class="metadata-key">{{ $key }}</td>
@@ -36,6 +32,12 @@
         </tr>
         {{ end }}
       </table>
+      <hr />
+      <span class="metadata-header">Helpful Links</span>
+      <ul>
+        <li><a href="{{ .HelpfulLinks.Corrections }}">Change/Correction Codes</a></li>
+        <li><a href="{{ .HelpfulLinks.Returns }}">Return Codes</a></li>
+      </ul>
     </main>
   </body>
 </html>
