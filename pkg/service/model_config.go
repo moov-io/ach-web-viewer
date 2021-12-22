@@ -2,6 +2,10 @@
 
 package service
 
+import (
+	"time"
+)
+
 type GlobalConfig struct {
 	ACHWebViewer Config
 }
@@ -53,10 +57,17 @@ type Sources []Source
 type Source struct {
 	ID string
 
+	ACHGateway *ACHGatewayConfig
 	Bucket     *BucketConfig
 	Filesystem *FilesystemConfig
 
 	Encryption *EncryptionConfig
+}
+
+type ACHGatewayConfig struct {
+	Endpoint string
+	Timeout  time.Duration
+	Shards   []string
 }
 
 type BucketConfig struct {

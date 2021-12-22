@@ -56,6 +56,9 @@ func NewListers(ss service.Sources) (Listers, error) {
 
 func createLister(src service.Source) (Lister, error) {
 	switch {
+	case src.ACHGateway != nil:
+		return newACHGatewayLister(src.ID, *src.ACHGateway)
+
 	case src.Bucket != nil:
 		return newBucketLister(src.ID, src)
 

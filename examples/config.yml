@@ -13,6 +13,13 @@ ACHWebViewer:
       filesystem:
         paths:
           - "./testdata/"
+
+    - id: "achgateway"
+      ACHGateway:
+        endpoint: "http://localhost:9494"
+        shards:
+          - "testing"
+
     # - id: "audittrail"
     #   bucket:
     #     url: "gs://ach-audittrail/"
