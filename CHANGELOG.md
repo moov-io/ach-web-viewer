@@ -1,3 +1,13 @@
+## v0.7.0 (Released 2021-12-21)
+
+ADDITIONS
+
+- filelist: support "achgateway" as a source of files
+
+BUILD
+
+- fix(deps): update github.com/protonmail/go-crypto commit hash to a4f6767
+
 ## v0.6.0 (Released 2021-12-14)
 
 IMPROVEMENTS
