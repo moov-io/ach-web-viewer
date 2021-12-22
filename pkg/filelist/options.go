@@ -16,6 +16,26 @@ func (opts ListOpts) Inside(when time.Time) bool {
 	return afterStart && beforeEnd
 }
 
+func (opts ListOpts) Dates() []string {
+	if opts.StartDate.IsZero() || opts.EndDate.IsZero() {
+		return nil
+	}
+
+	forward := 1
+	out := []string{
+		opts.StartDate.Format("2006-01-02"),
+	}
+	for {
+		when := opts.StartDate.Add(time.Duration(forward) * 24 * time.Hour)
+		if !opts.Inside(when) {
+			break
+		}
+		forward++
+		out = append(out, when.Format("2006-01-02"))
+	}
+	return out
+}
+
 func DefaultListOptions(when time.Time) ListOpts {
 	return ListOpts{
 		StartDate: when.Add(-7 * 24 * time.Hour),

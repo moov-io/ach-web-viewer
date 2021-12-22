@@ -55,13 +55,23 @@ func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 		SourceType: "Bucket",
 	}
 	for i := range ls.paths {
-		files, err := ls.listFiles(opts, ls.buck.List(&blob.ListOptions{
-			Prefix: ls.paths[i],
-		}))
-		if err != nil {
-			return out, fmt.Errorf("error reading %s bucket path: %v", ls.paths[i], err)
+		// Scan through each sub-path in our bucket to optimize searches.
+		//
+		// This pattern looks like the following path in a bucket:
+		// /outbound/hostname:22/2021-12-01/TESTING-20211201-145000-0.ach
+		dates := opts.Dates()
+		for j := range dates {
+			prefix := fmt.Sprintf("%s/*/%s/*", ls.paths[i], dates[j])
+
+			files, err := ls.listFiles(opts, ls.buck.List(&blob.ListOptions{
+				Prefix: prefix,
+			}))
+			if err != nil {
+				return out, fmt.Errorf("error reading %s bucket path: %v", ls.paths[i], err)
+			}
+
+			out.Files = append(out.Files, files...)
 		}
-		out.Files = append(out.Files, files...)
 	}
 	return out, nil
 }
