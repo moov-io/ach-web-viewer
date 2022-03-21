@@ -18,7 +18,10 @@
       {{ range $source := .Sources }}
         <div class="source"><strong>{{ $source.ID }}</strong> ({{ $source.Type }})</div>
         {{ range $group := $source.Groups }}
-          <div class="date">{{ dateTime $group.DateTime "January 2, 2006" }}</div>
+        <div class="date">
+          <span style="float:right;">{{ len $group.Files }} File(s)</span>
+          {{ dateTime $group.DateTime "January 2, 2006" }}
+        </div>
           {{ range $file := $group.Files }}
             <a href="{{ $file.Path }}">
               <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m18 2h-12a2 2 0 0 0 -2 2v16a2 2 0 0 0 2 2h6.76a3 3 0 0 0 2.12-.88l4.24-4.24a3 3 0 0 0 .88-2.12v-10.76a2 2 0 0 0 -2-2zm0 12h-5a1 1 0 0 0 -1 1v5h-6v-16h12zm-9.5-6h7a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0 -.5-.5h-7a.5.5 0 0 0 -.5.5v1a.5.5 0 0 0 .5.5zm0 4h4a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0 -.5-.5h-4a.5.5 0 0 0 -.5.5v1a.5.5 0 0 0 .5.5z"></path></svg>
