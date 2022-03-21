@@ -1,3 +1,17 @@
+## v0.8.0 (Released 2022-03-21)
+
+IMPROVEMENTS
+
+- webui: display the file count for each date
+
+BUILD
+
+- build: update moov-io/base to v0.28.1
+- chore(deps): update dependency golang to v1.18
+- fix(deps): update github.com/protonmail/go-crypto commit hash to 70ae35b
+- fix(deps): update module github.com/moov-io/ach to v1.13.1
+- fix(deps): update module github.com/stretchr/testify to v1.7.1
+
 ## v0.7.0 (Released 2021-12-21)
 
 ADDITIONS
