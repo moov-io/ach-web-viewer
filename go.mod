@@ -5,7 +5,6 @@ module github.com/moov-io/ach-web-viewer
 go 1.15
 
 require (
-	cloud.google.com/go/storage v1.18.2 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20220113124808-70ae35bab23f
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
@@ -13,5 +12,5 @@ require (
 	github.com/moov-io/ach v1.13.1
 	github.com/moov-io/base v0.28.1
 	github.com/stretchr/testify v1.7.1
-	gocloud.dev v0.24.0
+	gocloud.dev v0.25.0
 )
