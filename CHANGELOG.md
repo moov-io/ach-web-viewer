@@ -1,3 +1,11 @@
+## v0.8.1 (Released 2022-04-04)
+
+BUILD
+
+- fix(deps): update github.com/protonmail/go-crypto digest to 616f957
+- fix(deps): update module github.com/moov-io/ach to v1.14.0
+- fix(deps): update module gocloud.dev to v0.25.0
+
 ## v0.8.0 (Released 2022-03-21)
 
 IMPROVEMENTS
