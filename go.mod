@@ -9,7 +9,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
-	github.com/moov-io/ach v1.13.1
+	github.com/moov-io/ach v1.14.0
 	github.com/moov-io/base v0.28.1
 	github.com/stretchr/testify v1.7.1
 	gocloud.dev v0.25.0
