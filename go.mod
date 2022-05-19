@@ -5,7 +5,7 @@ module github.com/moov-io/ach-web-viewer
 go 1.15
 
 require (
-	github.com/ProtonMail/go-crypto v0.0.0-20220512085406-902f79d34c9f
+	github.com/ProtonMail/go-crypto v0.0.0-20220517143526-88bb52951d5b
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
