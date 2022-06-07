@@ -1,16 +1,17 @@
 package filelist
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"path/filepath"
 
-	"github.com/moov-io/ach-web-viewer/internal/gpgx"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
+	"github.com/moov-io/cryptfs"
 
-	"github.com/ProtonMail/go-crypto/openpgp"
 	"gocloud.dev/blob"
 	_ "gocloud.dev/blob/gcsblob"
 )
@@ -19,7 +20,7 @@ type bucketLister struct {
 	sourceID string
 	buck     *blob.Bucket
 	paths    []string
-	gpgKey   openpgp.EntityList
+	cryptor  *cryptfs.FS
 }
 
 func newBucketLister(sourceID string, cfg service.Source) (*bucketLister, error) {
@@ -37,7 +38,7 @@ func newBucketLister(sourceID string, cfg service.Source) (*bucketLister, error)
 	}
 	if cfg.Encryption != nil && cfg.Encryption.GPG != nil {
 		conf := cfg.Encryption.GPG
-		ls.gpgKey, err = gpgx.ReadPrivateKeyFile(conf.KeyFile, []byte(conf.KeyPassword))
+		ls.cryptor, err = cryptfs.FromCryptor(cryptfs.NewGPGDecryptorFile(conf.KeyFile, []byte(conf.KeyPassword)))
 		if err != nil {
 			return nil, fmt.Errorf("problem reading %s: %v", conf.KeyFile, err)
 		}
@@ -72,7 +73,7 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 		return nil, err
 	}
 
-	bs, err := maybeDecrypt(rdr, ls.gpgKey)
+	bs, err := ls.maybeDecrypt(rdr)
 	if err != nil {
 		rdr.Close()
 		return nil, err
@@ -90,6 +91,17 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 		Contents:    file,
 		CreatedAt:   rdr.ModTime(),
 	}, err
+}
+
+func (ls *bucketLister) maybeDecrypt(r io.Reader) (io.Reader, error) {
+	bs, err := ioutil.ReadAll(r)
+	if err != nil {
+		return nil, err
+	}
+	if ls.cryptor != nil {
+		bs, err = ls.cryptor.Reveal(bs)
+	}
+	return bytes.NewReader(bs), err
 }
 
 func (ls *bucketLister) listFiles(opts ListOpts, cur *blob.ListIterator) ([]File, error) {
