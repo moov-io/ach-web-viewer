@@ -10,10 +10,9 @@ require (
 	github.com/markbates/pkger v0.17.1
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
 	github.com/moov-io/ach v1.17.0
-	github.com/moov-io/base v0.29.2
+	github.com/moov-io/base v0.31.1
 	github.com/moov-io/cryptfs v0.4.0
 	github.com/stretchr/testify v1.7.4
 	gocloud.dev v0.25.0
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5 // indirect
-	google.golang.org/api v0.74.0 // indirect
 )
