@@ -13,7 +13,7 @@ require (
 	github.com/moov-io/ach v1.18.1
 	github.com/moov-io/base v0.31.1
 	github.com/moov-io/cryptfs v0.4.0
-	github.com/stretchr/testify v1.7.4
+	github.com/stretchr/testify v1.7.5
 	gocloud.dev v0.25.0
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5 // indirect
 )
