@@ -11,7 +11,7 @@ require (
 	github.com/markbates/pkger v0.17.1
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
 	github.com/moov-io/ach v1.18.1
-	github.com/moov-io/base v0.31.1
+	github.com/moov-io/base v0.32.0
 	github.com/moov-io/cryptfs v0.4.0
 	github.com/stretchr/testify v1.8.0
 	gocloud.dev v0.25.0
