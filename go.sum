@@ -263,6 +263,7 @@ github.com/aws/aws-lambda-go v1.26.0/go.mod h1:jJmlefzPfGnckuHdXX7/80O3BvUUi12XO
 github.com/aws/aws-lambda-go v1.28.0/go.mod h1:jJmlefzPfGnckuHdXX7/80O3BvUUi12XOkbv4w9SGLU=
 github.com/aws/aws-lambda-go v1.31.1/go.mod h1:IF5Q7wj4VyZyUFnZ54IQqeWtctHQ9tz+KhcbDenr220=
 github.com/aws/aws-lambda-go v1.32.0/go.mod h1:IF5Q7wj4VyZyUFnZ54IQqeWtctHQ9tz+KhcbDenr220=
+github.com/aws/aws-lambda-go v1.32.1/go.mod h1:jwFe2KmMsHmffA1X2R09hH6lFzJQxzI8qK17ewzbQMM=
 github.com/aws/aws-sdk-go v1.15.11/go.mod h1:mFuSZ37Z9YOHbQEwBWztmVzqXrEkub65tZoCYDt7FT0=
 github.com/aws/aws-sdk-go v1.15.27/go.mod h1:mFuSZ37Z9YOHbQEwBWztmVzqXrEkub65tZoCYDt7FT0=
 github.com/aws/aws-sdk-go v1.17.7/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
@@ -1275,6 +1276,8 @@ github.com/moov-io/ach v1.17.0 h1:0i1R3LvM+QBPU9UDhAR9I8COtufKOuQIm+d9ndeEqs8=
 github.com/moov-io/ach v1.17.0/go.mod h1:+acGK4VisM5nKh2ysnRbPkqiWnNaIBb8yrFI1H5AaaY=
 github.com/moov-io/ach v1.18.1 h1:iHsUuOD0tCUHyuzZ3jEKDB0eHakA/Bam/n9aLdFslFc=
 github.com/moov-io/ach v1.18.1/go.mod h1:kk3nsWX2BbdaKdeAgU+1wWuRjl/sgj9r8iltkhzPan4=
+github.com/moov-io/ach v1.18.2 h1:M8va2xiAfYLfWQ98tts+hawDrscnrKXOEuBzjBzJvkE=
+github.com/moov-io/ach v1.18.2/go.mod h1:NqtnYI0LvJz2KmrJobYL+u+VQi0w9felh+HKlwhVmeA=
 github.com/moov-io/base v0.24.0/go.mod h1:0yrPUDvZnVnrgl0T5veVUwNnxEKGLRObjzxhwXrJV6U=
 github.com/moov-io/base v0.27.1 h1:8gMPtbcHQpLTp1qPiO4SnLYNJMOdwHHXgdIjILKKvH0=
 github.com/moov-io/base v0.27.1/go.mod h1:nEzivS9t+46Hnqvjm1AzxLB1QZS4QsR9ZYqI9Gv5UFY=
