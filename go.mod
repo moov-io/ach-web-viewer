@@ -6,7 +6,7 @@ go 1.15
 
 require (
 	cloud.google.com/go/storage v1.22.1 // indirect
-	github.com/ProtonMail/go-crypto v0.0.0-20220623141421-5afb4c282135
+	github.com/ProtonMail/go-crypto v0.0.0-20220711121315-1fde58898e96
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
