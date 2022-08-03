@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"path/filepath"
 
 	"github.com/moov-io/ach-web-viewer/pkg/service"
@@ -94,7 +93,7 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 }
 
 func (ls *bucketLister) maybeDecrypt(r io.Reader) (io.Reader, error) {
-	bs, err := ioutil.ReadAll(r)
+	bs, err := os.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
