@@ -11,7 +11,7 @@ require (
 	github.com/moov-io/base v0.33.0
 	github.com/moov-io/cryptfs v0.4.0
 	github.com/stretchr/testify v1.8.0
-	gocloud.dev v0.25.0
+	gocloud.dev v0.26.0
 )
 
 require (
