@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
-	"os"
 	"path"
 	"path/filepath"
 	"sort"
@@ -232,7 +232,7 @@ func initTemplate(name, path string) *template.Template {
 	}
 	defer fd.Close()
 
-	bs, err := os.ReadAll(fd)
+	bs, err := io.ReadAll(fd)
 	if err != nil {
 		panic(fmt.Sprintf("error reading %s: %v", fd.Name(), err))
 	}
