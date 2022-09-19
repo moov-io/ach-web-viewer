@@ -1,3 +1,9 @@
+## v0.8.4 (Released 2022-09-19)
+
+BUILD
+
+- build: require Go 1.19.1 in CI/CD
+
 ## v0.8.3 (Released 2022-09-19)
 
 BUILD
