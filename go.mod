@@ -10,7 +10,7 @@ require (
 	github.com/moov-io/ach v1.21.2
 	github.com/moov-io/base v0.36.0
 	github.com/moov-io/cryptfs v0.4.0
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	gocloud.dev v0.27.0
 )
 
