@@ -667,6 +667,7 @@ github.com/gobuffalo/gogen v0.1.1/go.mod h1:y8iBtmHmGc4qa3urIyo1shvOD8JftTtfcKi+
 github.com/gobuffalo/here v0.6.0/go.mod h1:wAG085dHOYqUpf+Ap+WOdrPTp5IYcDAs/x7PLa8Y5fM=
 github.com/gobuffalo/here v0.6.2 h1:ZtCqC7F9ou3moLbYfHM1Tj+gwHGgWhjyRjVjsir9BE0=
 github.com/gobuffalo/here v0.6.2/go.mod h1:D75Sq0p2BVHdgQu3vCRsXbg85rx943V19urJpqAVWjI=
+github.com/gobuffalo/here v0.6.7 h1:hpfhh+kt2y9JLDfhYUxxCRxQol540jsVfKUZzjlbp8o=
 github.com/gobuffalo/here v0.6.7/go.mod h1:vuCfanjqckTuRlqAitJz6QC4ABNnS27wLb816UhsPcc=
 github.com/gobuffalo/logger v0.0.0-20190315122211-86e12af44bc2/go.mod h1:QdxcLw541hSGtBnhUc4gaNIXRjiDppFGaDqzbrBd3v8=
 github.com/gobuffalo/mapi v1.0.1/go.mod h1:4VAGh89y6rVOvm5A8fKFxYG+wIW6LO1FMTG9hnKStFc=
