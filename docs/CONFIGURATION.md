@@ -24,6 +24,8 @@ ACHWebViewer:
     Masking:
       AccountNumbers: true
       Names: false
+      CorrectedData: true
+      PrettyAmounts: false
 
   Sources:
     - id: "mergable"

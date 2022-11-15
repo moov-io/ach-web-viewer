@@ -20,7 +20,9 @@ func File(w io.Writer, cfg *service.DisplayConfig, file *ach.File) error {
 func achcliDescribe(w io.Writer, cfg service.MaskingConfig, file *ach.File) error {
 	describe.File(w, file, &describe.Opts{
 		MaskAccountNumbers: cfg.AccountNumbers,
+		MaskCorrectedData:  cfg.CorrectedData,
 		MaskNames:          cfg.Names,
+		PrettyAmounts:      cfg.PrettyAmounts,
 	})
 	return nil
 }

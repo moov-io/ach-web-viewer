@@ -44,7 +44,10 @@ type DisplayConfig struct {
 
 type MaskingConfig struct {
 	AccountNumbers bool
+	CorrectedData  bool
 	Names          bool
+
+	PrettyAmounts bool
 }
 
 type HelpfulLinks struct {
