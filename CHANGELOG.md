@@ -1,3 +1,16 @@
+## v0.9.0 (Released 2022-11-15)
+
+IMPROVEMENTS
+
+ach-web-viewer supports the additional masking options provided by moov-io/ach v1.23.1
+
+BUILD
+
+- fix(deps): update module github.com/moov-io/ach to v1.23.1
+- fix(deps): update module github.com/moov-io/base to v0.36.2
+- fix(deps): update module github.com/stretchr/testify to v1.8.1
+- fix(deps): update module gocloud.dev to v0.27.0
+
 ## v0.8.4 (Released 2022-09-19)
 
 BUILD
