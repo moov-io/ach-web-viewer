@@ -109,17 +109,17 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 }
 
 func (ls *bucketLister) maybeDecrypt(r io.Reader) (io.Reader, error) {
-	bs, err := io.ReadAll(r)
+	initial, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
 	for i := range ls.cryptors {
-		bs, err = ls.cryptors[i].Reveal(bs)
+		bs, err := ls.cryptors[i].Reveal(initial)
 		if len(bs) > 0 && err == nil {
-			break
+			return bytes.NewReader(bs), err
 		}
 	}
-	return bytes.NewReader(bs), err
+	return bytes.NewReader(initial), err
 }
 
 func (ls *bucketLister) listFiles(opts ListOpts, cur *blob.ListIterator) ([]File, error) {
