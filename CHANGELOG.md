@@ -1,3 +1,9 @@
+## v0.10.1 (Released 2022-11-18)
+
+IMPROVEMENTS
+
+- fix: decrypt initial bytes on iterative attempts
+
 ## v0.10.0 (Released 2022-11-18)
 
 IMPROVEMENTS
