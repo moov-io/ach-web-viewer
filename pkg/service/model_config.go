@@ -87,6 +87,14 @@ type EncryptionConfig struct {
 }
 
 type GPG struct {
+	Files []GPGFile
+
+	// KeyFile and KeyPassword are deprecated, use .Files
+	KeyFile     string
+	KeyPassword string
+}
+
+type GPGFile struct {
 	KeyFile     string
 	KeyPassword string
 }

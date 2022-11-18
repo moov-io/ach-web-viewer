@@ -27,5 +27,6 @@ ACHWebViewer:
     #       - "files"
     #   encryption:
     #     gpg:
-    #       keyFile: "/conf/keys/audittrail.priv"
-    #       # keyPassword: ""
+    #       files:
+    #         - keyFile: "/conf/keys/audittrail.priv"
+    #           # keyPassword: ""

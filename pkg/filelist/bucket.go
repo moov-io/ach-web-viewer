@@ -19,7 +19,7 @@ type bucketLister struct {
 	sourceID string
 	buck     *blob.Bucket
 	paths    []string
-	cryptor  *cryptfs.FS
+	cryptors []*cryptfs.FS
 }
 
 func newBucketLister(sourceID string, cfg service.Source) (*bucketLister, error) {
@@ -37,9 +37,25 @@ func newBucketLister(sourceID string, cfg service.Source) (*bucketLister, error)
 	}
 	if cfg.Encryption != nil && cfg.Encryption.GPG != nil {
 		conf := cfg.Encryption.GPG
-		ls.cryptor, err = cryptfs.FromCryptor(cryptfs.NewGPGDecryptorFile(conf.KeyFile, []byte(conf.KeyPassword)))
-		if err != nil {
-			return nil, fmt.Errorf("problem reading %s: %v", conf.KeyFile, err)
+		// Decrypt with either config
+		if conf.KeyFile != "" {
+			cc, err := cryptfs.FromCryptor(cryptfs.NewGPGDecryptorFile(conf.KeyFile, []byte(conf.KeyPassword)))
+			if err != nil {
+				return nil, fmt.Errorf("problem reading %s: %v", conf.KeyFile, err)
+			}
+			if cc != nil {
+				ls.cryptors = append(ls.cryptors, cc)
+			}
+		}
+		// Read from .Files and add those
+		for i := range conf.Files {
+			cc, err := cryptfs.FromCryptor(cryptfs.NewGPGDecryptorFile(conf.Files[i].KeyFile, []byte(conf.Files[i].KeyPassword)))
+			if err != nil {
+				return nil, fmt.Errorf("problem reading %s: %v", conf.Files[i].KeyFile, err)
+			}
+			if cc != nil {
+				ls.cryptors = append(ls.cryptors, cc)
+			}
 		}
 	}
 	return ls, nil
@@ -97,8 +113,11 @@ func (ls *bucketLister) maybeDecrypt(r io.Reader) (io.Reader, error) {
 	if err != nil {
 		return nil, err
 	}
-	if ls.cryptor != nil {
-		bs, err = ls.cryptor.Reveal(bs)
+	for i := range ls.cryptors {
+		bs, err = ls.cryptors[i].Reveal(bs)
+		if len(bs) > 0 && err == nil {
+			break
+		}
 	}
 	return bytes.NewReader(bs), err
 }
