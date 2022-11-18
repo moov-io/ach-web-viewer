@@ -1,3 +1,9 @@
+## v0.10.0 (Released 2022-11-18)
+
+IMPROVEMENTS
+
+- filelist: allow using multiple decryption keys
+
 ## v0.9.1 (Released 2022-11-15)
 
 IMPROVEMENTS
