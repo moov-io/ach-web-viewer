@@ -40,8 +40,9 @@ ACHWebViewer:
           - "files"
       encryption:
         gpg:
-          keyFile: "/conf/keys/audittrail.priv"
-          keyPassword: "secret"
+          files:
+            - keyFile: "/conf/keys/audittrail.priv"
+              keyPassword: "secret"
 ```
 
 ---
