@@ -1,3 +1,9 @@
+## v0.10.4 (Released 2022-12-08)
+
+BUILD
+
+- build: update github.com/moov-io/ach to v1.26.1
+
 ## v0.10.3 (Released 2022-12-08)
 
 BUILD
