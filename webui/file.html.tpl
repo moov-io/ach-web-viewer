@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fefefe">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#202020">
+    <style type="text/css">
+      caption { font-size: 18pt; font-weight: bold; text-align: left; }
+    </style>
   </head>
   <body>
     <header>
@@ -20,8 +23,8 @@
         {{ .Valid }}
       </div>
     {{ end }}
-    <main>
-      <pre>{{ .Contents }}</pre>
+    <main style="min-width:80%;">
+      {{ .Contents }}
       <hr />
       <span class="metadata-header">File Metadata</span>
       <table>

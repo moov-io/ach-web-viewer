@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"io"
 	"net/http"
 	"path"
 	"path/filepath"
@@ -13,10 +12,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/moov-io/ach-web-viewer/pkg/display"
 	webdisplay "github.com/moov-io/ach-web-viewer/pkg/display/web"
 	"github.com/moov-io/ach-web-viewer/pkg/filelist"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/base/log"
+	"github.com/moov-io/base/strx"
 
 	"github.com/gorilla/mux"
 	"github.com/markbates/pkger"
@@ -60,7 +61,7 @@ type listFilesTemplate struct {
 	Options listFilesOptions
 }
 
-var listFilesTmpl = initTemplate("list-files", "/webui/index.html.tpl")
+var listFilesTmpl = display.InitTemplate("list-files", "/webui/index.html.tpl")
 
 func listFiles(logger log.Logger, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -145,13 +146,13 @@ func groupFileListings(listings []listFile) (out []listFileGroup) {
 type getFileTemplate struct {
 	Filename     string
 	BaseURL      string
-	Contents     string
+	Contents     template.HTML
 	Valid        error
 	Metadata     map[string]string
 	HelpfulLinks service.HelpfulLinks
 }
 
-var getFileTmpl = initTemplate("get-file", "/webui/file.html.tpl")
+var getFileTmpl = display.InitTemplate("get-file", "/webui/file.html.tpl")
 
 func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -168,7 +169,9 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 
 		var contents bytes.Buffer
 		if file != nil && file.Contents != nil {
-			webdisplay.File(&contents, &cfg, file.Contents)
+			// Change the output formatting based on query params
+			format := strx.Or(r.URL.Query().Get("format"), cfg.Format)
+			webdisplay.File(&contents, format, cfg.Masking, file.Contents)
 		} else {
 			contents.WriteString("file not found...")
 		}
@@ -181,7 +184,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		err = getFileTmpl.Execute(w, getFileTemplate{
 			Filename:     filepath.Base(fullPath),
 			BaseURL:      baseURL(basePath),
-			Contents:     contents.String(),
+			Contents:     template.HTML(contents.String()),
 			Valid:        validationError,
 			Metadata:     setMetadata(file),
 			HelpfulLinks: cfg.HelpfulLinks,
@@ -208,34 +211,4 @@ func baseURL(basePath string) string {
 		return "/"
 	}
 	return cleaned + "/"
-}
-
-var templateFuncs template.FuncMap = map[string]interface{}{
-	"dateTime": func(when string, pattern string) string {
-		tt, _ := time.Parse("2006-01-02", when)
-		return tt.Format(pattern)
-	},
-	"startDateParam": func(end time.Time) string {
-		start := end.Add(-7 * 24 * time.Hour)
-		return fmt.Sprintf("?startDate=%s&endDate=%s", start.Format("2006-01-02"), end.Format("2006-01-02"))
-	},
-	"endDateParam": func(start time.Time) string {
-		end := start.Add(7 * 24 * time.Hour)
-		return fmt.Sprintf("?startDate=%s&endDate=%s", start.Format("2006-01-02"), end.Format("2006-01-02"))
-	},
-}
-
-func initTemplate(name, path string) *template.Template {
-	fd, err := pkger.Open(path)
-	if err != nil {
-		panic(fmt.Sprintf("error opening %s: %v", path, err))
-	}
-	defer fd.Close()
-
-	bs, err := io.ReadAll(fd)
-	if err != nil {
-		panic(fmt.Sprintf("error reading %s: %v", fd.Name(), err))
-	}
-
-	return template.Must(template.New(name).Funcs(templateFuncs).Parse(string(bs)))
 }
