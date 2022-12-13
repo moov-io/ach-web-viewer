@@ -1,4 +1,4 @@
-<table style="margin-bottom: 10px; min-width:100%;">
+<table style="border-spacing: 10px; margin-bottom: 10px; min-width:100%;">
   <!-- FileHeader -->
   <caption id="file-header">File Header</caption>
   <tr>
@@ -25,14 +25,14 @@
   {{ range $batch := .Batches }}
   <tr>
     <td>BatchNumber</td>
-    <td>StandardEntryClassCode</td>
+    <td>SECCode</td>
     <td>ServiceClassCode</td>
-    <td>CompanyName</td>
-    <td>CompanyDiscretionaryData</td>
-    <td>CompanyIdentification</td>
-    <td>CompanyEntryDescription</td>
+    <td><a href="?format=table&sort=CompanyName&order=asc">CompanyName</a></td>
+    <td>DiscretionaryData</td>
+    <td><a href="?format=table&sort=CompanyIdentification&order=asc">Identification</a></td>
+    <td>EntryDescription</td>
     <td>EffectiveEntryDate</td>
-    <td>CompanyDescriptiveDate</td>
+    <td>DescriptiveDate</td>
   </tr>
   <tr>
     <td>{{ $batch.Header.BatchNumber }}</td>
@@ -46,17 +46,17 @@
     <td>{{ $batch.Header.CompanyDescriptiveDate }}</td>
   </tr>
   <tr>
-    <td>TransactionCode</td>
+    <td style="padding-left:20px;">TransactionCode</td>
     <td>RDFIIdentification</td>
     <td>AccountNumber</td>
-    <td>Amount</td>
-    <td>Name</td>
-    <td>TraceNumber</td>
+    <td><a href="?format=table&sort=Amount&order=desc">Amount</a></td>
+    <td><a href="?format=table&sort=IndividualName&order=asc">Name</a></td>
+    <td><a href="?format=table&sort=TraceNumber&order=asc">TraceNumber</a></td>
     <td>Category</td>
   </tr>
   {{ range $entry := $batch.GetEntries }}
-  <tr> <!-- TODO(adam): add padding / margin to intent -->
-    <td>{{ $entry.TransactionCode }}</td>
+  <tr>
+    <td style="padding-left:20px;">{{ $entry.TransactionCode }}</td> <!-- TODO: view helper -->
     <td>{{ $entry.RDFIIdentification }}</td>
     <td>{{ $entry.DFIAccountNumber }}</td> <!-- TODO(adam): masking -->
     <td>{{ $entry.Amount }}</td>           <!-- TODO(adam): human readable formatting -->
@@ -69,7 +69,7 @@
   {{ end }}
 </table>
 
-<table style="margin-bottom: 10px; min-width:100%;">
+<table style="border-spacing: 10px; margin-bottom: 10px; min-width:100%;">
   <!-- FileControl -->
   <caption id="file-control">File Control</caption>
   <tr>

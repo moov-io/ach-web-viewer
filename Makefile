@@ -23,8 +23,10 @@ install:
 	go install github.com/markbates/pkger/cmd/pkger@latest
 	go mod vendor
 
-update:
+update-pkger:
 	pkger -include /configs/config.default.yml -include /webui
+
+update: update-pkger
 	go mod vendor
 
 build:

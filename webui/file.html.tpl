@@ -11,6 +11,9 @@
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#202020">
     <style type="text/css">
       caption { font-size: 18pt; font-weight: bold; text-align: left; }
+      table tr:nth-child(odd) {
+          font-weight: bold;
+      }
     </style>
   </head>
   <body>

@@ -170,8 +170,13 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		var contents bytes.Buffer
 		if file != nil && file.Contents != nil {
 			// Change the output formatting based on query params
-			format := strx.Or(r.URL.Query().Get("format"), cfg.Format)
-			webdisplay.File(&contents, format, cfg.Masking, file.Contents)
+			qq := r.URL.Query()
+			params := webdisplay.DisplayParams{
+				Format: strx.Or(qq.Get("format"), cfg.Format),
+				SortBy: qq.Get("sort"),
+				Order:  qq.Get("order"),
+			}
+			webdisplay.File(&contents, params, cfg.Masking, file.Contents)
 		} else {
 			contents.WriteString("file not found...")
 		}
