@@ -1,3 +1,11 @@
+## v0.10.5 (Released 2023-01-13)
+
+BUILD
+
+- fix(deps): update module github.com/moov-io/ach to v1.28.0
+- fix(deps): update module github.com/moov-io/base to v0.38.0
+- fix(deps): update module gocloud.dev to v0.28.0
+
 ## v0.10.4 (Released 2022-12-08)
 
 BUILD
