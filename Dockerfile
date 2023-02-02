@@ -1,6 +1,6 @@
 # generated-from:4eb13d9dd6505954e3ad7dafa7ad1014b4f5710bce763c9b94bbb3e61ca04538 DO NOT REMOVE, DO UPDATE
 
-FROM golang:1.19 as builder
+FROM golang:1.20 as builder
 WORKDIR /src
 ARG VERSION
 
