@@ -1,3 +1,11 @@
+## v0.10.6 (Released 2023-02-22)
+
+BUILD
+
+- chore(deps): update golang docker tag to v1.20
+- fix(deps): update module github.com/moov-io/ach to v1.28.1
+- fix(deps): update module github.com/moov-io/base to v0.39.0
+
 ## v0.10.5 (Released 2023-01-13)
 
 BUILD
