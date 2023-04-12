@@ -93,22 +93,22 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 		rdr.Close()
 		return nil, err
 	}
-
 	rdr.Close()
 
 	_, name := filepath.Split(path)
 
-	file, err := readFile(bs)
+	file, err := readFile(bytes.NewReader(bs))
 
 	return &File{
 		Name:        name,
 		StoragePath: path,
 		Contents:    file,
 		CreatedAt:   rdr.ModTime(),
+		Size:        int64(len(bs)),
 	}, err
 }
 
-func (ls *bucketLister) maybeDecrypt(r io.Reader) (io.Reader, error) {
+func (ls *bucketLister) maybeDecrypt(r io.Reader) ([]byte, error) {
 	initial, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
@@ -116,10 +116,10 @@ func (ls *bucketLister) maybeDecrypt(r io.Reader) (io.Reader, error) {
 	for i := range ls.cryptors {
 		bs, err := ls.cryptors[i].Reveal(initial)
 		if len(bs) > 0 && err == nil {
-			return bytes.NewReader(bs), err
+			return bs, err
 		}
 	}
-	return bytes.NewReader(initial), err
+	return initial, err
 }
 
 func (ls *bucketLister) listFiles(opts ListOpts, cur *blob.ListIterator) ([]File, error) {

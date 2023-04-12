@@ -134,5 +134,6 @@ func (a *achgatewayLister) GetFile(path string) (*File, error) {
 		StoragePath: dir,
 		Contents:    &file,
 		CreatedAt:   wrapper.ModTime,
+		Size:        int64(len(contents)),
 	}, nil
 }

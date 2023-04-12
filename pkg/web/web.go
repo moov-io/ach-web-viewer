@@ -197,6 +197,10 @@ func setMetadata(file *filelist.File) map[string]string {
 
 	if file != nil {
 		out["Created At"] = file.CreatedAt.Format(time.RFC1123)
+		if file.RecordCount > 0 {
+			out["Record Count"] = fmt.Sprintf("%d", file.RecordCount)
+		}
+		out["File Size"] = fmt.Sprintf("%.1f KBs", float64(file.Size)/1024.0)
 	}
 
 	return out

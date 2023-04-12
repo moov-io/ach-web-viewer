@@ -18,7 +18,10 @@ type File struct {
 	Name        string
 	StoragePath string
 	Contents    *ach.File
+
 	CreatedAt   time.Time
+	Size        int64
+	RecordCount int64
 }
 
 type Lister interface {

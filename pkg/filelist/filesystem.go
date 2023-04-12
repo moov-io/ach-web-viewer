@@ -87,5 +87,6 @@ func (ls *filesystemLister) GetFile(path string) (*File, error) {
 		StoragePath: fd.Name(),
 		Contents:    file,
 		CreatedAt:   stat.ModTime(),
+		Size:        stat.Size(),
 	}, err
 }
