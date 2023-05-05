@@ -8,7 +8,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.31.1
-	github.com/moov-io/base v0.41.0
+	github.com/moov-io/base v0.42.0
 	github.com/moov-io/cryptfs v0.4.1
 	github.com/stretchr/testify v1.8.2
 	gocloud.dev v0.29.0
