@@ -33,6 +33,7 @@ bin/
 misspell*
 staticcheck*
 coverage.txt
+gitleaks.tar.gz
 
 pkger*
 pkged.go
