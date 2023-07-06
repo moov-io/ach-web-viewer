@@ -9,7 +9,7 @@ require (
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.31.5
 	github.com/moov-io/base v0.45.0
-	github.com/moov-io/cryptfs v0.4.2
+	github.com/moov-io/cryptfs v0.5.0
 	github.com/stretchr/testify v1.8.4
 	gocloud.dev v0.30.0
 )
