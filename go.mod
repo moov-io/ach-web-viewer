@@ -9,7 +9,7 @@ require (
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.31.5
 	github.com/moov-io/base v0.45.0
-	github.com/moov-io/cryptfs v0.5.0
+	github.com/moov-io/cryptfs v0.6.0
 	github.com/stretchr/testify v1.8.4
 	gocloud.dev v0.30.0
 )
@@ -20,7 +20,7 @@ require (
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	cloud.google.com/go/iam v1.1.0 // indirect
 	cloud.google.com/go/storage v1.30.1 // indirect
-	github.com/ProtonMail/go-crypto v0.0.0-20230217124315-7d5c6f04bbb8 // indirect
+	github.com/ProtonMail/go-crypto v0.0.0-20230710112148-e01326fd72eb // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
