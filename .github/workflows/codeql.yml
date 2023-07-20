@@ -8,18 +8,19 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+permissions:
+  contents: read
+
 jobs:
   CodeQL-Build:
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v2
-        with:
-          go-version: '>= 1.19.1'
-        id: go
-
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
