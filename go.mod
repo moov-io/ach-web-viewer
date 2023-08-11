@@ -7,7 +7,7 @@ go 1.19
 require (
 	github.com/gorilla/mux v1.8.0
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.32.1
+	github.com/moov-io/ach v1.32.2
 	github.com/moov-io/base v0.45.1
 	github.com/moov-io/cryptfs v0.7.0
 	github.com/stretchr/testify v1.8.4
