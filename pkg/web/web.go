@@ -232,13 +232,13 @@ var templateFuncs template.FuncMap = map[string]interface{}{
 func initTemplate(name, path string) *template.Template {
 	fd, err := pkger.Open(path)
 	if err != nil {
-		panic(fmt.Sprintf("error opening %s: %v", path, err))
+		panic(fmt.Sprintf("error opening %s: %v", path, err)) //nolint:forbidigo
 	}
 	defer fd.Close()
 
 	bs, err := io.ReadAll(fd)
 	if err != nil {
-		panic(fmt.Sprintf("error reading %s: %v", fd.Name(), err))
+		panic(fmt.Sprintf("error reading %s: %v", fd.Name(), err)) //nolint:forbidigo
 	}
 
 	return template.Must(template.New(name).Funcs(templateFuncs).Parse(string(bs)))

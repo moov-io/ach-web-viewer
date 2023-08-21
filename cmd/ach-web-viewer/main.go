@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	achwebviewer "github.com/moov-io/ach-web-viewer"
@@ -29,7 +28,12 @@ func main() {
 	termListener := service.NewTerminationListener()
 
 	// Register API routes with listers
-	listers := createFileListers(env.Config.Sources)
+	listers, err := filelist.NewListers(env.Config.Sources)
+	if err != nil {
+		env.Logger.Fatal().LogErrorf("problem initializing listers: %v", err)
+		os.Exit(1)
+	}
+
 	api.AppendRoutes(env.Logger, env.PublicRouter, listers)
 	web.AppendRoutes(env, listers, env.Config.Servers.Public.BasePath)
 
@@ -37,12 +41,4 @@ func main() {
 	defer stopServers()
 
 	service.AwaitTermination(env.Logger, termListener)
-}
-
-func createFileListers(cfg service.Sources) filelist.Listers {
-	listers, err := filelist.NewListers(cfg)
-	if err != nil {
-		panic(fmt.Sprintf("ERROR initializing listers: %v", err))
-	}
-	return listers
 }
