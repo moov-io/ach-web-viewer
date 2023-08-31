@@ -24,7 +24,7 @@
       <pre>{{ .Contents }}</pre>
       <hr />
       <span class="metadata-header">File Metadata</span>
-      <table>
+      <table id="metadata-table">
         {{ range $key, $value := .Metadata }}
         <tr>
           <td class="metadata-key">{{ $key }}</td>
@@ -39,5 +39,21 @@
         <li><a href="{{ .HelpfulLinks.Returns }}">Return Codes</a></li>
       </ul>
     </main>
+    <script type="text/javascript">
+      (function() {
+        var table = document.querySelector("#metadata-table");
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+          for (var j = 0, col; col = row.cells[j]; j++) {
+            // If we can parse the value as a Date format it to the user's locale
+            var ts = new Date(row.cells[j].innerText);
+            if (!isNaN(ts)) {
+              var before = row.cells[j].innerText;
+              row.cells[j].innerHTML = "<span title='" + ts.toLocaleString() + "' style='text-decoration:underline;'>" + before + "</span>";
+            }
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
