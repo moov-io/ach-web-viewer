@@ -1,3 +1,16 @@
+## v0.10.7 (Released 2023-08-31)
+
+IMPROVEMENTS
+
+- webui: offer the file creation time localized in the browser
+
+BUILD
+
+- build: update github.com/moov-io/base to v0.46.0
+- feat: show file size on file display
+- fix(deps): update module github.com/moov-io/ach to v1.32.2
+- fix(deps): update module gocloud.dev to v0.34.0
+
 ## v0.10.6 (Released 2023-02-22)
 
 BUILD
