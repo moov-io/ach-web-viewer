@@ -107,7 +107,7 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 		}
 		err = listFilesTmpl.Execute(w, response)
 		if err != nil {
-			fmt.Printf("ERROR: rendering template: %v\n", err)
+			logger.LogErrorf("ERROR: rendering template: %v\n", err)
 		}
 	}
 }
@@ -187,7 +187,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 			HelpfulLinks: cfg.HelpfulLinks,
 		})
 		if err != nil {
-			fmt.Printf("ERROR: rendering template: %v\n", err)
+			logger.LogErrorf("ERROR: rendering template: %v\n", err)
 		}
 	}
 }
