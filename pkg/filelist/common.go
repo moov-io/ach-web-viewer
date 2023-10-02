@@ -8,7 +8,11 @@ import (
 )
 
 func readFile(r io.Reader) (*ach.File, error) {
-	file, err := ach.NewReader(r).Read()
+	reader := ach.NewReader(r)
+	reader.SetValidation(&ach.ValidateOpts{
+		AllowMissingBatchHeader: true,
+	})
+	file, err := reader.Read()
 	if err != nil {
 		message := err.Error()
 		switch {
