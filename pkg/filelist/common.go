@@ -5,12 +5,13 @@ import (
 	"strings"
 
 	"github.com/moov-io/ach"
+	"github.com/moov-io/ach-web-viewer/pkg/service"
 )
 
-func readFile(r io.Reader) (*ach.File, error) {
+func readFile(r io.Reader, cfg service.DisplayConfig) (*ach.File, error) {
 	reader := ach.NewReader(r)
 	reader.SetValidation(&ach.ValidateOpts{
-		AllowMissingBatchHeader: true,
+		AllowMissingBatchHeader: cfg.AllowMissingBatchHeader,
 	})
 	file, err := reader.Read()
 	if err != nil {

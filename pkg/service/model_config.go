@@ -37,9 +37,10 @@ type BindAddress struct {
 }
 
 type DisplayConfig struct {
-	Format       string // e.g. "human-readable"
-	Masking      MaskingConfig
-	HelpfulLinks HelpfulLinks
+	Format                  string // e.g. "human-readable"
+	Masking                 MaskingConfig
+	HelpfulLinks            HelpfulLinks
+	AllowMissingBatchHeader bool
 }
 
 type MaskingConfig struct {

@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 )
 
@@ -96,7 +95,7 @@ func (a *achgatewayLister) getFiles(shard string) ([]File, error) {
 	return out, nil
 }
 
-func (a *achgatewayLister) GetFile(path string) (*File, error) {
+func (a *achgatewayLister) GetFile(path string, cfg service.DisplayConfig) (*File, error) {
 	req, err := http.NewRequest("GET", a.endpoint+"/"+path, nil)
 	if err != nil {
 		return nil, err
@@ -124,7 +123,7 @@ func (a *achgatewayLister) GetFile(path string) (*File, error) {
 		return nil, err
 	}
 
-	file, err := ach.NewReader(bytes.NewReader(contents)).Read()
+	file, err := readFile(bytes.NewReader(contents), cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +131,7 @@ func (a *achgatewayLister) GetFile(path string) (*File, error) {
 	return &File{
 		Name:        wrapper.Filename,
 		StoragePath: dir,
-		Contents:    &file,
+		Contents:    file,
 		CreatedAt:   wrapper.ModTime,
 		Size:        int64(len(contents)),
 	}, nil

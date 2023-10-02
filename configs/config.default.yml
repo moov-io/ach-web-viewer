@@ -12,3 +12,4 @@ ACHWebViewer:
     HelpfulLinks:
       Corrections: "https://moov-io.github.io/ach/changes/"
       Returns: "https://moov-io.github.io/ach/returns/"
+    AllowMissingBatchHeader: true

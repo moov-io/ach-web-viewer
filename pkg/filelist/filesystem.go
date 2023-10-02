@@ -61,7 +61,7 @@ func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
 	return out, nil
 }
 
-func (ls *filesystemLister) GetFile(path string) (*File, error) {
+func (ls *filesystemLister) GetFile(path string, cfg service.DisplayConfig) (*File, error) {
 	path = filepath.Clean(path)
 
 	if strings.Contains(path, "..") || strings.HasPrefix(path, "/") {
@@ -75,7 +75,7 @@ func (ls *filesystemLister) GetFile(path string) (*File, error) {
 
 	_, name := filepath.Split(fd.Name())
 
-	file, err := readFile(fd)
+	file, err := readFile(fd, cfg)
 
 	var stat fs.FileInfo
 	if fd != nil {

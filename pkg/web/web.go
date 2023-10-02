@@ -158,7 +158,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		sourceID := mux.Vars(r)["sourceID"]
 		fullPath := strings.TrimPrefix(r.URL.Path, fmt.Sprintf("%s/sources/%s/", basePath, sourceID))
 
-		file, err := listers.GetFile(sourceID, fullPath)
+		file, err := listers.GetFile(sourceID, fullPath, cfg)
 		if err != nil {
 			logger.Warn().Logf("ERROR: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)

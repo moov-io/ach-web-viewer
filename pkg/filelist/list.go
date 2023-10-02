@@ -27,7 +27,7 @@ type File struct {
 type Lister interface {
 	SourceID() string
 
-	GetFile(path string) (*File, error)
+	GetFile(path string, cfg service.DisplayConfig) (*File, error)
 	GetFiles(opts ListOpts) (Files, error)
 }
 
@@ -71,10 +71,10 @@ func createLister(src service.Source) (Lister, error) {
 	return nil, fmt.Errorf("unknown source: %#v", src)
 }
 
-func (ls Listers) GetFile(sourceID, path string) (*File, error) {
+func (ls Listers) GetFile(sourceID, path string, cfg service.DisplayConfig) (*File, error) {
 	for i := range ls {
 		if ls[i].SourceID() == sourceID {
-			return ls[i].GetFile(path)
+			return ls[i].GetFile(path, cfg)
 		}
 	}
 	return nil, fmt.Errorf("%s not found for sourceID=%s", path, sourceID)

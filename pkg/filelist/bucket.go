@@ -82,7 +82,7 @@ func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 	return out, nil
 }
 
-func (ls *bucketLister) GetFile(path string) (*File, error) {
+func (ls *bucketLister) GetFile(path string, cfg service.DisplayConfig) (*File, error) {
 	rdr, err := ls.buck.NewReader(context.Background(), path, nil)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 
 	_, name := filepath.Split(path)
 
-	file, err := readFile(bytes.NewReader(bs))
+	file, err := readFile(bytes.NewReader(bs), cfg)
 
 	return &File{
 		Name:        name,
