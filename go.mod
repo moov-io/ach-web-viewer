@@ -7,7 +7,7 @@ go 1.20
 require (
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.34.4
+	github.com/moov-io/ach v1.35.0
 	github.com/moov-io/base v0.48.5
 	github.com/moov-io/cryptfs v0.7.1
 	github.com/stretchr/testify v1.8.4
@@ -60,9 +60,9 @@ require (
 	github.com/moov-io/iso4217 v0.3.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/prometheus/client_golang v1.18.0 // indirect
+	github.com/prometheus/client_golang v1.19.0 // indirect
 	github.com/prometheus/client_model v0.5.0 // indirect
-	github.com/prometheus/common v0.45.0 // indirect
+	github.com/prometheus/common v0.48.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/rickar/cal/v2 v2.1.13 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
@@ -85,7 +85,7 @@ require (
 	golang.org/x/crypto v0.19.0 // indirect
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb // indirect
 	golang.org/x/net v0.21.0 // indirect
-	golang.org/x/oauth2 v0.15.0 // indirect
+	golang.org/x/oauth2 v0.16.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
 	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
