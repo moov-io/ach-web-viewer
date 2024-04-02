@@ -9,10 +9,13 @@ import (
 	"path/filepath"
 
 	"github.com/moov-io/ach-web-viewer/pkg/service"
+	"github.com/moov-io/ach-web-viewer/pkg/yyyymmdd"
 	"github.com/moov-io/cryptfs"
 
+	"cloud.google.com/go/storage"
 	"gocloud.dev/blob"
 	_ "gocloud.dev/blob/gcsblob"
+	"golang.org/x/sync/errgroup"
 )
 
 type bucketLister struct {
@@ -71,9 +74,7 @@ func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 		SourceType: "Bucket",
 	}
 	for i := range ls.paths {
-		files, err := ls.listFiles(opts, ls.buck.List(&blob.ListOptions{
-			Prefix: ls.paths[i],
-		}))
+		files, err := ls.listFiles(opts, ls.paths[i])
 		if err != nil {
 			return out, fmt.Errorf("error reading %s bucket path: %v", ls.paths[i], err)
 		}
@@ -122,7 +123,74 @@ func (ls *bucketLister) maybeDecrypt(r io.Reader) ([]byte, error) {
 	return initial, err
 }
 
-func (ls *bucketLister) listFiles(opts ListOpts, cur *blob.ListIterator) ([]File, error) {
+func (ls *bucketLister) listFiles(opts ListOpts, pathPrefix string) ([]File, error) {
+	// Different underlying storage engines will let us scan/glob parts of the bucket differently.
+	var gcsBucket *storage.Client
+	if ls.buck.As(&gcsBucket) {
+		return ls.listFilesFromGCSBucket(opts, pathPrefix)
+	}
+	return ls.listFilesFromCDKBucket(opts, pathPrefix)
+}
+
+func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string) ([]File, error) {
+	var g errgroup.Group
+	datePrefixes := yyyymmdd.Prefixes(opts.StartDate, opts.EndDate)
+
+	discoveredFiles := make(chan []File)
+
+	for _, datePrefix := range datePrefixes {
+		g.Go(func() error {
+			beforeList := func(as func(interface{}) bool) error {
+				var q *storage.Query
+				if as(&q) {
+					q.MatchGlob = fmt.Sprintf("%s/*/%s*/*", pathPrefix, datePrefix)
+				}
+				return nil
+			}
+
+			listOptions := &blob.ListOptions{
+				Prefix:     pathPrefix, //  + "/",
+				BeforeList: beforeList,
+			}
+
+			files, err := ls.listFilesFromCursor(opts, ls.buck.List(listOptions))
+			if len(files) > 0 {
+				go func() {
+					discoveredFiles <- files
+				}()
+			}
+			return err
+		})
+	}
+
+	err := g.Wait()
+	go func() {
+		discoveredFiles <- nil
+	}()
+	if err != nil {
+		return nil, err
+	}
+
+	var out []File
+	for {
+		files := <-discoveredFiles
+		if len(files) == 0 {
+			break
+		}
+		out = append(out, files...)
+	}
+	return out, nil
+
+}
+
+func (ls *bucketLister) listFilesFromCDKBucket(opts ListOpts, pathPrefix string) ([]File, error) {
+	return ls.listFilesFromCursor(opts, ls.buck.List(&blob.ListOptions{
+		Delimiter: "/",
+		Prefix:    pathPrefix,
+	}))
+}
+
+func (ls *bucketLister) listFilesFromCursor(opts ListOpts, cur *blob.ListIterator) ([]File, error) {
 	var out []File
 	for {
 		obj, err := cur.Next(context.Background())

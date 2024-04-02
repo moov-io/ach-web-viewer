@@ -5,6 +5,7 @@ module github.com/moov-io/ach-web-viewer
 go 1.20
 
 require (
+	cloud.google.com/go/storage v1.39.1
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.36.1
@@ -12,6 +13,7 @@ require (
 	github.com/moov-io/cryptfs v0.7.1
 	github.com/stretchr/testify v1.9.0
 	gocloud.dev v0.37.0
+	golang.org/x/sync v0.6.0
 )
 
 require (
@@ -19,7 +21,6 @@ require (
 	cloud.google.com/go/compute v1.25.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	cloud.google.com/go/iam v1.1.6 // indirect
-	cloud.google.com/go/storage v1.39.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v3 v3.2.2 // indirect
@@ -83,7 +84,6 @@ require (
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb // indirect
 	golang.org/x/net v0.22.0 // indirect
 	golang.org/x/oauth2 v0.18.0 // indirect
-	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
