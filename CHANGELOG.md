@@ -1,3 +1,18 @@
+## v0.10.8 (Released 2024-04-02)
+
+IMPROVEMENTS
+
+- filelist: only scan parts of bucket when listing files
+
+BUILD
+
+- chore(deps): update golang docker tag to v1.22
+- fix(deps): update module cloud.google.com/go/storage to v1.40.0
+- fix(deps): update module github.com/moov-io/ach to v1.37.2
+- fix(deps): update module github.com/moov-io/base to v0.48.5
+- fix(deps): update module github.com/stretchr/testify to v1.9.0
+- fix(deps): update module gocloud.dev to v0.37.0
+
 ## v0.10.7 (Released 2023-08-31)
 
 IMPROVEMENTS
