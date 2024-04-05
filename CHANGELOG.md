@@ -1,3 +1,14 @@
+## v0.10.9 (Released 2024-04-05)
+
+IMPROVEMENTS
+
+- filelist: support optional path for ODFI files
+
+BUILD
+
+- build(deps): bump github.com/cloudflare/circl from 1.3.3 to 1.3.7
+- build(deps): bump github.com/go-jose/go-jose/v3 from 3.0.0 to 3.0.3
+
 ## v0.10.8 (Released 2024-04-02)
 
 IMPROVEMENTS
