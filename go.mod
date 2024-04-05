@@ -2,7 +2,7 @@
 
 module github.com/moov-io/ach-web-viewer
 
-go 1.20
+go 1.22.2
 
 require (
 	cloud.google.com/go/storage v1.40.0

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"path/filepath"
+	"strings"
 
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/ach-web-viewer/pkg/yyyymmdd"
@@ -143,7 +144,23 @@ func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string)
 			beforeList := func(as func(interface{}) bool) error {
 				var q *storage.Query
 				if as(&q) {
-					q.MatchGlob = fmt.Sprintf("%s/*/%s*/*", pathPrefix, datePrefix)
+					// If pathPrefix contains a "/" then it's formatted as "folder/hostname"
+					folder, hostname := pathPrefix, "*"
+
+					idx := strings.Index(pathPrefix, "/")
+					if idx > 0 {
+						folder, hostname = pathPrefix[:idx], pathPrefix[idx:]
+
+						hostname = strings.ReplaceAll(hostname, "/", "")
+					}
+
+					// achgateway stores files under two path schemes:
+					//
+					//   /odfi     /sftp.bank.com:22 /Returned   /2024-04-05
+					//   /outbound /sftp.bank.com:22 /2022-10-17
+					//
+					// Glob for the optional "Returned" directory
+					q.MatchGlob = fmt.Sprintf("%s/%s/**/%s*/**", folder, hostname, datePrefix)
 				}
 				return nil
 			}
