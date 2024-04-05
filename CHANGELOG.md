@@ -1,4 +1,4 @@
-## v0.10.9 (Released 2024-04-05)
+## v0.11.0 (Released 2024-04-05)
 
 IMPROVEMENTS
 
@@ -8,6 +8,7 @@ BUILD
 
 - build(deps): bump github.com/cloudflare/circl from 1.3.3 to 1.3.7
 - build(deps): bump github.com/go-jose/go-jose/v3 from 3.0.0 to 3.0.3
+- build(deps): bump golang.org/x/net from v0.22.0 to v0.24.0
 
 ## v0.10.8 (Released 2024-04-02)
 
