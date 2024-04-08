@@ -1,3 +1,13 @@
+## v0.11.1 (Released 2024-04-08)
+
+IMPROVEMENTS
+
+- filelist: use buffered channel for consistent listings
+
+BUILD
+
+- fix(deps): update module golang.org/x/sync to v0.7.0
+
 ## v0.11.0 (Released 2024-04-05)
 
 IMPROVEMENTS
