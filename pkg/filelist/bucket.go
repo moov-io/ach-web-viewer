@@ -137,7 +137,7 @@ func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string)
 	var g errgroup.Group
 	datePrefixes := yyyymmdd.Prefixes(opts.StartDate, opts.EndDate)
 
-	discoveredFiles := make(chan []File)
+	discoveredFiles := make(chan []File, len(datePrefixes))
 
 	for _, datePrefix := range datePrefixes {
 		g.Go(func() error {
@@ -172,28 +172,20 @@ func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string)
 
 			files, err := ls.listFilesFromCursor(opts, ls.buck.List(listOptions))
 			if len(files) > 0 {
-				go func() {
-					discoveredFiles <- files
-				}()
+				discoveredFiles <- files
 			}
 			return err
 		})
 	}
 
 	err := g.Wait()
-	go func() {
-		discoveredFiles <- nil
-	}()
 	if err != nil {
 		return nil, err
 	}
+	close(discoveredFiles)
 
 	var out []File
-	for {
-		files := <-discoveredFiles
-		if len(files) == 0 {
-			break
-		}
+	for files := range discoveredFiles {
 		out = append(out, files...)
 	}
 	return out, nil
