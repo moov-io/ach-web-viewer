@@ -4,7 +4,6 @@ moov-io/ach-web-viewer
 
 [![GoDoc](https://godoc.org/github.com/moov-io/ach-web-viewer?status.svg)](https://godoc.org/github.com/moov-io/ach-web-viewer)
 [![Build Status](https://github.com/moov-io/ach-web-viewer/workflows/Go/badge.svg)](https://github.com/moov-io/ach-web-viewer/actions)
-[![Coverage Status](https://codecov.io/gh/moov-io/ach-web-viewer/branch/master/graph/badge.svg)](https://codecov.io/gh/moov-io/ach-web-viewer)
 [![Go Report Card](https://goreportcard.com/badge/github.com/moov-io/ach-web-viewer)](https://goreportcard.com/report/github.com/moov-io/ach-web-viewer)
 [![Apache 2 licensed](https://img.shields.io/badge/license-Apache2-blue.svg)](https://raw.githubusercontent.com/moov-io/ach-web-viewer/master/LICENSE)
 
