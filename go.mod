@@ -8,7 +8,7 @@ require (
 	cloud.google.com/go/storage v1.46.0
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.42.0
+	github.com/moov-io/ach v1.42.1
 	github.com/moov-io/base v0.53.0
 	github.com/moov-io/cryptfs v0.8.0
 	github.com/stretchr/testify v1.9.0
@@ -67,12 +67,12 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/moov-io/iso4217 v0.3.0 // indirect
+	github.com/moov-io/iso4217 v0.3.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/prometheus/client_golang v1.20.4 // indirect
+	github.com/prometheus/client_golang v1.20.5 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.55.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
@@ -96,12 +96,12 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.29.0 // indirect
 	go.opentelemetry.io/otel/trace v1.29.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
+	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/exp v0.0.0-20240707233637-46b078467d37 // indirect
-	golang.org/x/net v0.30.0 // indirect
+	golang.org/x/net v0.31.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
-	golang.org/x/sys v0.26.0 // indirect
-	golang.org/x/text v0.19.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/text v0.20.0 // indirect
 	golang.org/x/time v0.7.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240716161551-93cc26a95ae9 // indirect
 	google.golang.org/api v0.203.0 // indirect
