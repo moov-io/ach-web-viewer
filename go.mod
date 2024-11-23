@@ -11,7 +11,7 @@ require (
 	github.com/moov-io/ach v1.43.0
 	github.com/moov-io/base v0.53.0
 	github.com/moov-io/cryptfs v0.8.0
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	gocloud.dev v0.40.0
 	golang.org/x/sync v0.9.0
 )
