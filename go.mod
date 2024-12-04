@@ -8,12 +8,12 @@ require (
 	cloud.google.com/go/storage v1.47.0
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.43.0
+	github.com/moov-io/ach v1.44.0
 	github.com/moov-io/base v0.53.0
 	github.com/moov-io/cryptfs v0.8.0
 	github.com/stretchr/testify v1.10.0
 	gocloud.dev v0.40.0
-	golang.org/x/sync v0.9.0
+	golang.org/x/sync v0.10.0
 )
 
 require (
@@ -101,7 +101,7 @@ require (
 	golang.org/x/net v0.31.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.7.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240716161551-93cc26a95ae9 // indirect
 	google.golang.org/api v0.203.0 // indirect
