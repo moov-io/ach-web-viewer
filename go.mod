@@ -8,7 +8,7 @@ require (
 	cloud.google.com/go/storage v1.47.0
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.44.0
+	github.com/moov-io/ach v1.44.1
 	github.com/moov-io/base v0.53.0
 	github.com/moov-io/cryptfs v0.8.0
 	github.com/stretchr/testify v1.10.0
