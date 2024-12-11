@@ -24,7 +24,7 @@ If you believe you have identified a security vulnerability please responsibly r
 
 ## Getting Started
 
-Read through the [project docs](docs/README.md) over here to get an understanding of the purpose of this project and how to run it.
+Download the [docker image](https://hub.docker.com/r/moov/ach-web-viewer) or source code and run ach-web-viewer with the [example config](./examples).
 
 ## Getting Help
 
