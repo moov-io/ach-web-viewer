@@ -28,7 +28,11 @@ func AppendRoutes(env *service.Environment, listers filelist.Listers, basePath s
 
 	dir, _ := pkger.Open("/webui/")
 	if dir != nil {
-		env.PublicRouter.Methods("GET").Path("/style.css").Handler(http.StripPrefix(basePath, http.FileServer(dir)))
+		assets := []string{"/index.js", "/style.css"}
+
+		for _, asset := range assets {
+			env.PublicRouter.Methods("GET").Path(asset).Handler(http.StripPrefix(basePath, http.FileServer(dir)))
+		}
 	}
 }
 

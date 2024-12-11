@@ -8,6 +8,7 @@ import (
 
 type ListOpts struct {
 	StartDate, EndDate time.Time
+	Pattern            string
 }
 
 func (opts ListOpts) Inside(when time.Time) bool {
@@ -46,6 +47,8 @@ func ReadListOptions(r *http.Request) (ListOpts, error) {
 			opts.EndDate = tt
 		}
 	}
+
+	opts.Pattern = qry.Get("pattern")
 
 	return opts, nil
 }
