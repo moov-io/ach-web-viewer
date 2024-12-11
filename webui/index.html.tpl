@@ -15,6 +15,11 @@
       <h1>ACH file viewer</h1>
     </header>
     <main class="list">
+      <form id="filter">
+        <label for="filename">Filename: </label>
+        <input id="filename" type="text" placeholder="Filter filenames..." autofocus="true" />
+      </form>
+
       {{ range $source := .Sources }}
         <div class="source"><strong>{{ $source.ID }}</strong> ({{ $source.Type }})</div>
         {{ range $group := $source.Groups }}
@@ -39,5 +44,7 @@
         <a href="{{ endDateParam .Options.TimeRangeMax }}">Next -></a>
       </nav>
     </main>
+
+    <script src="{{ .BaseURL }}index.js"></script>
   </body>
 </html>

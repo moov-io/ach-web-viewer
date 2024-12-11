@@ -2,6 +2,8 @@ package filelist
 
 import (
 	"fmt"
+	"slices"
+	"strings"
 	"time"
 
 	"github.com/moov-io/ach"
@@ -40,9 +42,24 @@ func (ls Listers) GetFiles(opts ListOpts) (map[string]Files, error) {
 		if err != nil {
 			return out, err
 		}
-		out[ls[i].SourceID()] = files
+		out[ls[i].SourceID()] = filterFilesByPattern(opts, files)
 	}
 	return out, nil
+}
+
+func filterFilesByPattern(opts ListOpts, files Files) Files {
+	if opts.Pattern == "" {
+		return files
+	}
+
+	pattern := strings.ToLower(opts.Pattern)
+
+	files.Files = slices.DeleteFunc(files.Files, func(f File) bool {
+		// Keep what the files contain the pattern
+		return !strings.Contains(strings.ToLower(f.Name), pattern)
+	})
+
+	return files
 }
 
 func NewListers(ss service.Sources) (Listers, error) {

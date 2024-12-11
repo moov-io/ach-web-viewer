@@ -150,3 +150,20 @@ main {
 .metadata-key {
     font-weight: bold;
 }
+
+form#filter {
+    margin-bottom: 20px;
+}
+
+label[for="filename"] {
+    color: var(--title-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+input#filename {
+    background-color: var(--title-color);
+    min-height: 2rem;
+    width: 60%;
+}
