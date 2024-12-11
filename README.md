@@ -10,8 +10,6 @@ moov-io/ach-web-viewer
 ACH Web Viewer is a service that loads and displays lists of ACH Files from various sources on a website.
 This allows combining multiple sources of ACH files together for operators to review.
 
-Docs: [docs](https://moov-io.github.io/ach-web-viewer/) | [open api specification](api/api.yml)
-
 ![](./docs/images/index.png)
 
 ![](./docs/images/get-file.png)
