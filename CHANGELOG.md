@@ -1,3 +1,18 @@
+## v0.12.0 (Released 2024-12-11)
+
+IMPROVEMENTS
+
+- webui: basic exact pattern filtering when listing files
+
+BUILD
+
+- chore(deps): update golang docker tag to v1.23
+- fix(deps): update module cloud.google.com/go/storage to v1.48.0 (#234)
+- fix(deps): update module github.com/moov-io/ach to v1.44.2 (#235)
+- fix(deps): update module github.com/moov-io/base to v0.51.1
+- fix(deps): update module github.com/moov-io/cryptfs to v0.7.3
+- fix(deps): update module github.com/stretchr/testify to v1.10.0 (#231)
+
 ## v0.11.1 (Released 2024-04-08)
 
 IMPROVEMENTS
