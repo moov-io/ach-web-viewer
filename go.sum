@@ -221,6 +221,8 @@ github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyua
 github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
 github.com/moov-io/ach v1.44.2 h1:YFRK29X5Ec/vLfjOmaJUcqOSWXki3OeHUfYgu0PeRL8=
 github.com/moov-io/ach v1.44.2/go.mod h1:IESvX5IAwWhEhXQpyK7NGiECdAsALr0xYTIA/QDv/Ls=
+github.com/moov-io/ach v1.45.0 h1:BsUYCSy41Euq7Ed+EuWPkDwwtXwotRUcZ4XQX/NKpV4=
+github.com/moov-io/ach v1.45.0/go.mod h1:IESvX5IAwWhEhXQpyK7NGiECdAsALr0xYTIA/QDv/Ls=
 github.com/moov-io/base v0.53.0 h1:rpPWEbd/NTWApLzFq2AYbCZUlIv99OtvQcan7yArJVE=
 github.com/moov-io/base v0.53.0/go.mod h1:F2cdACBgJHNemPrOxvc88ezIqFL6ymErB4hOuPR+axg=
 github.com/moov-io/cryptfs v0.8.0 h1:tupi5tpJTjLcxY7/E/XRfbDu4PPHAUQQfvU+M18thN0=
