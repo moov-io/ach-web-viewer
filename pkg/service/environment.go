@@ -5,8 +5,6 @@ package service
 import (
 	"net/http"
 
-	_ "github.com/moov-io/ach-web-viewer"
-	"github.com/moov-io/base/config"
 	"github.com/moov-io/base/log"
 	"github.com/moov-io/base/stime"
 
@@ -63,17 +61,4 @@ func NewEnvironment(env *Environment) (*Environment, error) {
 	}
 
 	return env, nil
-}
-
-func LoadConfig(logger log.Logger) (*Config, error) {
-	configService := config.NewService(logger)
-
-	global := &GlobalConfig{}
-	if err := configService.Load(global); err != nil {
-		return nil, err
-	}
-
-	cfg := &global.ACHWebViewer
-
-	return cfg, nil
 }

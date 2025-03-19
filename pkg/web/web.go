@@ -2,6 +2,7 @@ package web
 
 import (
 	"bytes"
+	"cmp"
 	"errors"
 	"fmt"
 	"html/template"
@@ -16,24 +17,19 @@ import (
 	webdisplay "github.com/moov-io/ach-web-viewer/pkg/display/web"
 	"github.com/moov-io/ach-web-viewer/pkg/filelist"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
+	"github.com/moov-io/ach-web-viewer/webui"
 	"github.com/moov-io/base/log"
 
 	"github.com/gorilla/mux"
-	"github.com/markbates/pkger"
 )
 
 func AppendRoutes(env *service.Environment, listers filelist.Listers, basePath string) {
+	// Static CSS and JS
+	staticFS := http.FileServer(http.FS(webui.WebRoot))
+	env.PublicRouter.PathPrefix("/static/").Handler(http.StripPrefix(basePath, staticFS))
+
 	env.PublicRouter.Methods("GET").Path("/").HandlerFunc(listFiles(env.Logger, listers, basePath))
 	env.PublicRouter.Methods("GET").PathPrefix("/sources/{sourceID}/").HandlerFunc(getFile(env.Logger, env.Config.Display, listers, basePath))
-
-	dir, _ := pkger.Open("/webui/")
-	if dir != nil {
-		assets := []string{"/index.js", "/style.css"}
-
-		for _, asset := range assets {
-			env.PublicRouter.Methods("GET").Path(asset).Handler(http.StripPrefix(basePath, http.FileServer(dir)))
-		}
-	}
 }
 
 type listFile struct {
@@ -64,7 +60,7 @@ type listFilesTemplate struct {
 	Options listFilesOptions
 }
 
-var listFilesTmpl = initTemplate("list-files", "/webui/index.html.tpl")
+var listFilesTmpl = initTemplate("list-files", "index.html.tmpl")
 
 func listFiles(logger log.Logger, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +107,7 @@ func listFiles(logger log.Logger, listers filelist.Listers, basePath string) htt
 		}
 		err = listFilesTmpl.Execute(w, response)
 		if err != nil {
-			logger.LogErrorf("ERROR: rendering template: %v\n", err)
+			logger.LogErrorf("ERROR: rendering list files template: %v\n", err)
 		}
 	}
 }
@@ -155,7 +151,7 @@ type getFileTemplate struct {
 	HelpfulLinks service.HelpfulLinks
 }
 
-var getFileTmpl = initTemplate("get-file", "/webui/file.html.tpl")
+var getFileTmpl = initTemplate("get-file", "file.html.tmpl")
 
 func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -191,7 +187,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 			HelpfulLinks: cfg.HelpfulLinks,
 		})
 		if err != nil {
-			logger.LogErrorf("ERROR: rendering template: %v\n", err)
+			logger.LogErrorf("ERROR: rendering file template: %v\n", err)
 		}
 	}
 }
@@ -234,7 +230,7 @@ var templateFuncs template.FuncMap = map[string]interface{}{
 }
 
 func initTemplate(name, path string) *template.Template {
-	fd, err := pkger.Open(path)
+	fd, err := webui.WebRoot.Open(path)
 	if err != nil {
 		panic(fmt.Sprintf("error opening %s: %v", path, err)) //nolint:forbidigo
 	}
@@ -242,7 +238,14 @@ func initTemplate(name, path string) *template.Template {
 
 	bs, err := io.ReadAll(fd)
 	if err != nil {
-		panic(fmt.Sprintf("error reading %s: %v", fd.Name(), err)) //nolint:forbidigo
+		var filename string
+		info, _ := fd.Stat()
+		if info != nil {
+			filename = info.Name()
+		}
+		filename = cmp.Or(filename, path)
+
+		panic(fmt.Sprintf("error reading %s: %v", filename, err)) //nolint:forbidigo
 	}
 
 	return template.Must(template.New(name).Funcs(templateFuncs).Parse(string(bs)))
