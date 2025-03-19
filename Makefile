@@ -15,20 +15,14 @@ GROUPID:= $(shell id -g $$USER)
 
 export GOPRIVATE=github.com/moov-io
 
-all: install update build
+all: install build
 
 .PHONY: install
 install:
 	go mod tidy
-	go install github.com/markbates/pkger/cmd/pkger@latest
-	go mod vendor
-
-update:
-	pkger -include /configs/config.default.yml -include /webui
-	go mod vendor
 
 build:
-	go build -mod=vendor -ldflags "-X github.com/moov-io/ach-web-viewer.Version=${VERSION}" -o bin/ach-web-viewer github.com/moov-io/ach-web-viewer/cmd/ach-web-viewer
+	go build -ldflags "-X github.com/moov-io/ach-web-viewer.Version=${VERSION}" -o bin/ach-web-viewer github.com/moov-io/ach-web-viewer/cmd/ach-web-viewer
 
 .PHONY: setup
 setup:
@@ -48,22 +42,15 @@ endif
 teardown:
 	-docker compose down --remove-orphans
 
-docker: update
-	docker build --pull --build-arg VERSION=${VERSION} -t moov-io/ach-web-viewer:${VERSION} -f Dockerfile .
-	docker tag moov-io/ach-web-viewer:${VERSION} moov-io/ach-web-viewer:latest
-
-	docker tag moov-io/ach-web-viewer:${VERSION} moov/ach-web-viewer:${VERSION}
-	docker tag moov-io/ach-web-viewer:${VERSION} moov/ach-web-viewer:latest
-
+docker:
+	docker build --pull --build-arg VERSION=${VERSION} -t moov/ach-web-viewer:${VERSION} -f Dockerfile .
 
 docker-push:
 	docker push moov/ach-web-viewer:${VERSION}
-	docker push moov/ach-web-viewer:latest
 
 .PHONY: dev-docker
-dev-docker: update
-	docker build --pull --build-arg VERSION=${DEV_VERSION} -t moov-io/ach-web-viewer:${DEV_VERSION} -f Dockerfile .
-	docker tag moov-io/ach-web-viewer:${DEV_VERSION} moov/ach-web-viewer:${DEV_VERSION}
+dev-docker:
+	docker build --pull --build-arg VERSION=${DEV_VERSION} -t moov/ach-web-viewer:${DEV_VERSION} -f Dockerfile .
 
 .PHONY: dev-push
 dev-push:
@@ -71,13 +58,13 @@ dev-push:
 
 # Extra utilities not needed for building
 
-run: update build
+run: build
 	./bin/ach-web-viewer
 
 docker-run:
-	docker run -v ${PWD}/data:/data -v ${PWD}/configs:/configs --env APP_CONFIG="/configs/config.yml" -it --rm moov-io/ach-web-viewer:${VERSION}
+	docker run -v ${PWD}/data:/data -v ${PWD}/configs:/configs --env APP_CONFIG="/configs/config.yml" -it --rm moov/ach-web-viewer:${VERSION}
 
-test: update
+test:
 	go test -cover github.com/moov-io/ach-web-viewer/...
 
 .PHONY: clean
@@ -90,13 +77,6 @@ else
 endif
 
 # For open source projects
-
-# From https://github.com/genuinetools/img
-.PHONY: AUTHORS
-AUTHORS:
-	@$(file >$@,# This file lists all individuals having contributed content to the repository.)
-	@$(file >>$@,# For how it is generated, see `make AUTHORS`.)
-	@echo "$(shell git log --format='\n%aN <%aE>' | LC_ALL=C.UTF-8 sort -uf)" >> $@
 
 dist: clean build
 ifeq ($(OS),Windows_NT)
