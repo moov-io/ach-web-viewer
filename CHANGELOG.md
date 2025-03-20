@@ -1,3 +1,11 @@
+## v0.12.3 (Released 2025-03-20)
+
+BUILD
+
+- build: cleanup makefile
+- fix(deps): update module github.com/moov-io/ach to v1.45.1 (#239)
+- refactor: convert project over to go:embed
+
 ## v0.12.2 (Released 2024-12-16)
 
 IMPROVEMENTS
