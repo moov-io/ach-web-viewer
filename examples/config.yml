@@ -14,11 +14,11 @@ ACHWebViewer:
         paths:
           - "./testdata/"
 
-    - id: "achgateway"
-      ACHGateway:
-        endpoint: "http://localhost:9494"
-        shards:
-          - "testing"
+    # - id: "achgateway"
+    #   ACHGateway:
+    #     endpoint: "http://localhost:9494"
+    #     shards:
+    #       - "testing"
 
     # - id: "audittrail"
     #   bucket:
