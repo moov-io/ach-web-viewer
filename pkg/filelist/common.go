@@ -14,7 +14,8 @@ func readFile(r io.Reader) (*ach.File, error) {
 		switch {
 		case strings.Contains(message, "*ach.BatchError"),
 			strings.Contains(message, "*ach.FieldError"),
-			strings.Contains(message, "*errors.errorString"):
+			strings.Contains(message, "*errors.errorString"),
+			strings.Contains(message, "none or more than one"):
 			return &file, nil
 		}
 	}

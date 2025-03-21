@@ -158,9 +158,14 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		sourceID := mux.Vars(r)["sourceID"]
 		fullPath := strings.TrimPrefix(r.URL.Path, fmt.Sprintf("%s/sources/%s/", basePath, sourceID))
 
+		logger := logger.With(log.Fields{
+			"sourceID":  log.String(sourceID),
+			"full_path": log.String(fullPath),
+		})
+
 		file, err := listers.GetFile(sourceID, fullPath)
 		if err != nil {
-			logger.Warn().Logf("ERROR: %v\n", err)
+			logger.Warn().Logf("ERROR: getting file %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 
@@ -187,7 +192,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 			HelpfulLinks: cfg.HelpfulLinks,
 		})
 		if err != nil {
-			logger.LogErrorf("ERROR: rendering file template: %v\n", err)
+			logger.Error().LogErrorf("ERROR: rendering file template: %v\n", err)
 		}
 	}
 }
