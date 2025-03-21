@@ -163,7 +163,7 @@ label[for="filename"] {
 }
 
 input#filename {
-    background-color: var(--title-color);
+    background-color: #fafafa;
     min-height: 2rem;
     width: 60%;
 }
