@@ -1,3 +1,10 @@
+## v0.12.4 (Released 2025-03-21)
+
+IMPROVEMENTS
+
+- filelist: allow missing file headers/control records to be displayed
+- webui: input#filename should always have a white background
+
 ## v0.12.3 (Released 2025-03-20)
 
 BUILD
