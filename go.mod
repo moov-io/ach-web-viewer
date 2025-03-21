@@ -5,15 +5,15 @@ module github.com/moov-io/ach-web-viewer
 go 1.24.1
 
 require (
-	cloud.google.com/go/storage v1.48.0
+	cloud.google.com/go/storage v1.51.0
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
-	github.com/moov-io/ach v1.45.1
-	github.com/moov-io/base v0.53.0
+	github.com/moov-io/ach v1.45.5
+	github.com/moov-io/base v0.54.2
 	github.com/moov-io/cryptfs v0.8.0
 	github.com/stretchr/testify v1.10.0
 	gocloud.dev v0.40.0
-	golang.org/x/sync v0.10.0
+	golang.org/x/sync v0.12.0
 )
 
 require (
