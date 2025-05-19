@@ -1,3 +1,9 @@
+## v0.12.5 (Released 2025-05-19)
+
+BUILD
+
+- build: update moov-io deps
+
 ## v0.12.4 (Released 2025-03-21)
 
 IMPROVEMENTS
