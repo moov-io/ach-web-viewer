@@ -75,7 +75,7 @@ func (ls *filesystemLister) GetFile(path string) (*File, error) {
 
 	_, name := filepath.Split(fd.Name())
 
-	file, err := readFile(fd)
+	file, err := readFile(name, fd)
 
 	var stat fs.FileInfo
 	if fd != nil {

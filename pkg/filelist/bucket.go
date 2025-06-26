@@ -99,7 +99,7 @@ func (ls *bucketLister) GetFile(path string) (*File, error) {
 
 	_, name := filepath.Split(path)
 
-	file, err := readFile(bytes.NewReader(bs))
+	file, err := readFile(name, bytes.NewReader(bs))
 
 	return &File{
 		Name:        name,
