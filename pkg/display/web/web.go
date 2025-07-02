@@ -7,6 +7,7 @@ import (
 	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/ach/cmd/achcli/describe"
+	"github.com/moov-io/ach/cmd/achcli/describe/mask"
 )
 
 func File(w io.Writer, cfg *service.DisplayConfig, file *ach.File) error {
@@ -19,10 +20,12 @@ func File(w io.Writer, cfg *service.DisplayConfig, file *ach.File) error {
 
 func achcliDescribe(w io.Writer, cfg service.MaskingConfig, file *ach.File) error {
 	describe.File(w, file, &describe.Opts{
-		MaskAccountNumbers: cfg.AccountNumbers,
-		MaskCorrectedData:  cfg.CorrectedData,
-		MaskNames:          cfg.Names,
-		PrettyAmounts:      cfg.PrettyAmounts,
+		Options: mask.Options{
+			MaskAccountNumbers: cfg.AccountNumbers,
+			MaskCorrectedData:  cfg.CorrectedData,
+			MaskNames:          cfg.Names,
+		},
+		PrettyAmounts: cfg.PrettyAmounts,
 	})
 	return nil
 }
