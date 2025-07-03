@@ -1,6 +1,7 @@
 package filelist
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/fs"
@@ -9,6 +10,9 @@ import (
 	"strings"
 
 	"github.com/moov-io/ach-web-viewer/pkg/service"
+	"github.com/moov-io/base/telemetry"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 )
 
 type filesystemLister struct {
@@ -30,7 +34,10 @@ func (ls *filesystemLister) SourceID() string {
 	return ls.sourceID
 }
 
-func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
+func (ls *filesystemLister) GetFiles(ctx context.Context, opts ListOpts) (Files, error) {
+	_, span := telemetry.StartSpan(ctx, "filelist-filesystem-getfiles")
+	defer span.End()
+
 	out := Files{
 		SourceID:   ls.sourceID,
 		SourceType: "Filesystem",
@@ -61,7 +68,12 @@ func (ls *filesystemLister) GetFiles(opts ListOpts) (Files, error) {
 	return out, nil
 }
 
-func (ls *filesystemLister) GetFile(path string) (*File, error) {
+func (ls *filesystemLister) GetFile(ctx context.Context, path string) (*File, error) {
+	_, span := telemetry.StartSpan(ctx, "filelist-filesystem-getfile", trace.WithAttributes(
+		attribute.String("search.path", path),
+	))
+	defer span.End()
+
 	path = filepath.Clean(path)
 
 	if strings.Contains(path, "..") || strings.HasPrefix(path, "/") {

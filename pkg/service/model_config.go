@@ -4,6 +4,8 @@ package service
 
 import (
 	"time"
+
+	"github.com/moov-io/base/telemetry"
 )
 
 type GlobalConfig struct {
@@ -12,6 +14,8 @@ type GlobalConfig struct {
 
 // Config defines all the configuration for the app
 type Config struct {
+	Telemetry telemetry.Config
+
 	Servers ServerConfig
 	Clients *ClientConfig
 

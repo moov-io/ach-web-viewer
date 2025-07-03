@@ -19,6 +19,7 @@ import (
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/ach-web-viewer/webui"
 	"github.com/moov-io/base/log"
+	"github.com/moov-io/base/telemetry"
 
 	"github.com/gorilla/mux"
 )
@@ -64,13 +65,16 @@ var listFilesTmpl = initTemplate("list-files", "index.html.tmpl")
 
 func listFiles(logger log.Logger, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		ctx, span := telemetry.StartSpan(r.Context(), "web-list-files")
+		defer span.End()
+
 		opts, err := filelist.ReadListOptions(r)
 		if err != nil {
 			logger.Set("service", log.String("web")).Error().LogErrorf("problem reading list params: %v", err)
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 
-		resp, err := listers.GetFiles(opts)
+		resp, err := listers.GetFiles(ctx, opts)
 		if err != nil {
 			logger.Set("service", log.String("web")).Error().LogErrorf("problem listing files: %v", err)
 			w.WriteHeader(http.StatusInternalServerError)
@@ -155,6 +159,9 @@ var getFileTmpl = initTemplate("get-file", "file.html.tmpl")
 
 func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.Listers, basePath string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		ctx, span := telemetry.StartSpan(r.Context(), "web-get-file")
+		defer span.End()
+
 		sourceID := mux.Vars(r)["sourceID"]
 		fullPath := strings.TrimPrefix(r.URL.Path, fmt.Sprintf("%s/sources/%s/", basePath, sourceID))
 
@@ -163,7 +170,7 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 			"full_path": log.String(fullPath),
 		})
 
-		file, err := listers.GetFile(sourceID, fullPath)
+		file, err := listers.GetFile(ctx, sourceID, fullPath)
 		if err != nil {
 			logger.Warn().Logf("ERROR: getting file %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)

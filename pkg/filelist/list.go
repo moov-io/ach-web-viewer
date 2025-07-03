@@ -1,6 +1,7 @@
 package filelist
 
 import (
+	"context"
 	"fmt"
 	"slices"
 	"strings"
@@ -29,16 +30,16 @@ type File struct {
 type Lister interface {
 	SourceID() string
 
-	GetFile(path string) (*File, error)
-	GetFiles(opts ListOpts) (Files, error)
+	GetFile(ctx context.Context, path string) (*File, error)
+	GetFiles(ctx context.Context, opts ListOpts) (Files, error)
 }
 
 type Listers []Lister
 
-func (ls Listers) GetFiles(opts ListOpts) (map[string]Files, error) {
+func (ls Listers) GetFiles(ctx context.Context, opts ListOpts) (map[string]Files, error) {
 	out := make(map[string]Files)
 	for i := range ls {
-		files, err := ls[i].GetFiles(opts)
+		files, err := ls[i].GetFiles(ctx, opts)
 		if err != nil {
 			return out, err
 		}
@@ -88,10 +89,10 @@ func createLister(src service.Source) (Lister, error) {
 	return nil, fmt.Errorf("unknown source: %#v", src)
 }
 
-func (ls Listers) GetFile(sourceID, path string) (*File, error) {
+func (ls Listers) GetFile(ctx context.Context, sourceID, path string) (*File, error) {
 	for i := range ls {
 		if ls[i].SourceID() == sourceID {
-			return ls[i].GetFile(path)
+			return ls[i].GetFile(ctx, path)
 		}
 	}
 	return nil, fmt.Errorf("%s not found for sourceID=%s", path, sourceID)

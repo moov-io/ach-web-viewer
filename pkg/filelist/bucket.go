@@ -11,9 +11,12 @@ import (
 
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/ach-web-viewer/pkg/yyyymmdd"
+	"github.com/moov-io/base/telemetry"
 	"github.com/moov-io/cryptfs"
 
 	"cloud.google.com/go/storage"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 	"gocloud.dev/blob"
 	_ "gocloud.dev/blob/gcsblob"
 	"golang.org/x/sync/errgroup"
@@ -69,13 +72,13 @@ func (ls *bucketLister) SourceID() string {
 	return ls.sourceID
 }
 
-func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
+func (ls *bucketLister) GetFiles(ctx context.Context, opts ListOpts) (Files, error) {
 	out := Files{
 		SourceID:   ls.sourceID,
 		SourceType: "Bucket",
 	}
 	for i := range ls.paths {
-		files, err := ls.listFiles(opts, ls.paths[i])
+		files, err := ls.listFiles(ctx, opts, ls.paths[i])
 		if err != nil {
 			return out, fmt.Errorf("error reading %s bucket path: %v", ls.paths[i], err)
 		}
@@ -84,8 +87,13 @@ func (ls *bucketLister) GetFiles(opts ListOpts) (Files, error) {
 	return out, nil
 }
 
-func (ls *bucketLister) GetFile(path string) (*File, error) {
-	rdr, err := ls.buck.NewReader(context.Background(), path, nil)
+func (ls *bucketLister) GetFile(ctx context.Context, path string) (*File, error) {
+	ctx, span := telemetry.StartSpan(ctx, "filelist-bucket-getfile", trace.WithAttributes(
+		attribute.String("search.path", path),
+	))
+	defer span.End()
+
+	rdr, err := ls.buck.NewReader(ctx, path, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -124,18 +132,26 @@ func (ls *bucketLister) maybeDecrypt(r io.Reader) ([]byte, error) {
 	return initial, err
 }
 
-func (ls *bucketLister) listFiles(opts ListOpts, pathPrefix string) ([]File, error) {
+func (ls *bucketLister) listFiles(ctx context.Context, opts ListOpts, pathPrefix string) ([]File, error) {
 	// Different underlying storage engines will let us scan/glob parts of the bucket differently.
 	var gcsBucket *storage.Client
 	if ls.buck.As(&gcsBucket) {
-		return ls.listFilesFromGCSBucket(opts, pathPrefix)
+		return ls.listFilesFromGCSBucket(ctx, opts, pathPrefix)
 	}
-	return ls.listFilesFromCDKBucket(opts, pathPrefix)
+	return ls.listFilesFromCDKBucket(ctx, opts, pathPrefix)
 }
 
-func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string) ([]File, error) {
+func (ls *bucketLister) listFilesFromGCSBucket(ctx context.Context, opts ListOpts, pathPrefix string) ([]File, error) {
+	ctx, span := telemetry.StartSpan(ctx, "filelist-bucket-list-files-gcs-bucket", trace.WithAttributes(
+		attribute.String("search.path_prefix", pathPrefix),
+	))
+	defer span.End()
+
 	var g errgroup.Group
 	datePrefixes := yyyymmdd.Prefixes(opts.StartDate, opts.EndDate)
+	span.SetAttributes(
+		attribute.StringSlice("search.yymmdd_prefixes", datePrefixes),
+	)
 
 	discoveredFiles := make(chan []File, len(datePrefixes))
 
@@ -170,7 +186,7 @@ func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string)
 				BeforeList: beforeList,
 			}
 
-			files, err := ls.listFilesFromCursor(opts, ls.buck.List(listOptions))
+			files, err := ls.listFilesFromCursor(ctx, opts, ls.buck.List(listOptions))
 			if len(files) > 0 {
 				discoveredFiles <- files
 			}
@@ -192,17 +208,22 @@ func (ls *bucketLister) listFilesFromGCSBucket(opts ListOpts, pathPrefix string)
 
 }
 
-func (ls *bucketLister) listFilesFromCDKBucket(opts ListOpts, pathPrefix string) ([]File, error) {
-	return ls.listFilesFromCursor(opts, ls.buck.List(&blob.ListOptions{
+func (ls *bucketLister) listFilesFromCDKBucket(ctx context.Context, opts ListOpts, pathPrefix string) ([]File, error) {
+	ctx, span := telemetry.StartSpan(ctx, "filelist-bucket-list-files-cdk-bucket", trace.WithAttributes(
+		attribute.String("search.path_prefix", pathPrefix),
+	))
+	defer span.End()
+
+	return ls.listFilesFromCursor(ctx, opts, ls.buck.List(&blob.ListOptions{
 		Delimiter: "/",
 		Prefix:    pathPrefix,
 	}))
 }
 
-func (ls *bucketLister) listFilesFromCursor(opts ListOpts, cur *blob.ListIterator) ([]File, error) {
+func (ls *bucketLister) listFilesFromCursor(ctx context.Context, opts ListOpts, cur *blob.ListIterator) ([]File, error) {
 	var out []File
 	for {
-		obj, err := cur.Next(context.Background())
+		obj, err := cur.Next(ctx)
 		if err != nil {
 			if err == io.EOF {
 				break // finished with cursor

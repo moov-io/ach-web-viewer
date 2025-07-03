@@ -2,6 +2,7 @@ package filelist
 
 import (
 	"bytes"
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -12,6 +13,9 @@ import (
 
 	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
+	"github.com/moov-io/base/telemetry"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 )
 
 type achgatewayLister struct {
@@ -45,7 +49,10 @@ func (a *achgatewayLister) SourceID() string {
 	return a.sourceID
 }
 
-func (a *achgatewayLister) GetFiles(opts ListOpts) (Files, error) {
+func (a *achgatewayLister) GetFiles(ctx context.Context, opts ListOpts) (Files, error) {
+	_, span := telemetry.StartSpan(ctx, "filelist-achgateway-getfiles")
+	defer span.End()
+
 	out := Files{
 		SourceID:   a.sourceID,
 		SourceType: "ACHGateway",
@@ -96,7 +103,12 @@ func (a *achgatewayLister) getFiles(shard string) ([]File, error) {
 	return out, nil
 }
 
-func (a *achgatewayLister) GetFile(path string) (*File, error) {
+func (a *achgatewayLister) GetFile(ctx context.Context, path string) (*File, error) {
+	_, span := telemetry.StartSpan(ctx, "filelist-achgateway-getfile", trace.WithAttributes(
+		attribute.String("search.path", path),
+	))
+	defer span.End()
+
 	req, err := http.NewRequest("GET", a.endpoint+"/"+path, nil)
 	if err != nil {
 		return nil, err
