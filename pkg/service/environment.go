@@ -3,10 +3,14 @@
 package service
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 
+	achwebviewer "github.com/moov-io/ach-web-viewer"
 	"github.com/moov-io/base/log"
 	"github.com/moov-io/base/stime"
+	"github.com/moov-io/base/telemetry"
 
 	"github.com/gorilla/mux"
 )
@@ -49,6 +53,16 @@ func NewEnvironment(env *Environment) (*Environment, error) {
 
 	if env.TimeService == nil {
 		env.TimeService = stime.NewSystemTimeService()
+	}
+
+	telemetryShutdownFunc, err := telemetry.SetupTelemetry(context.Background(), env.Config.Telemetry, achwebviewer.Version)
+	if err != nil {
+		return env, fmt.Errorf("setting up telemetry failed: %w", err)
+	}
+	prev := env.Shutdown
+	env.Shutdown = func() {
+		prev()
+		telemetryShutdownFunc()
 	}
 
 	// router
