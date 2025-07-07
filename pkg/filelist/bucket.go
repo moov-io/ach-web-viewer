@@ -77,13 +77,41 @@ func (ls *bucketLister) GetFiles(ctx context.Context, opts ListOpts) (Files, err
 		SourceID:   ls.sourceID,
 		SourceType: "Bucket",
 	}
-	for i := range ls.paths {
-		files, err := ls.listFiles(ctx, opts, ls.paths[i])
-		if err != nil {
-			return out, fmt.Errorf("error reading %s bucket path: %v", ls.paths[i], err)
-		}
-		out.Files = append(out.Files, files...)
+
+	g, ctx := errgroup.WithContext(ctx)
+	fileChan := make(chan []File)
+
+	for _, path := range ls.paths {
+		path := path // capture range variable
+		g.Go(func() error {
+			files, err := ls.listFiles(ctx, opts, path)
+			if err != nil {
+				return fmt.Errorf("error reading %s bucket path: %v", path, err)
+			}
+			select {
+			case fileChan <- files:
+				return nil
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		})
 	}
+
+	// Start a goroutine to collect files
+	go func() {
+		for files := range fileChan {
+			out.Files = append(out.Files, files...)
+		}
+	}()
+
+	// Wait for all goroutines to complete or first error
+	if err := g.Wait(); err != nil {
+		return out, err
+	}
+
+	// Close channel after all goroutines are done
+	close(fileChan)
+
 	return out, nil
 }
 
