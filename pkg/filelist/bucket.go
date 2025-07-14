@@ -8,6 +8,7 @@ import (
 	"io"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/ach-web-viewer/pkg/yyyymmdd"
@@ -80,9 +81,11 @@ func (ls *bucketLister) GetFiles(ctx context.Context, opts ListOpts) (Files, err
 
 	g, ctx := errgroup.WithContext(ctx)
 	fileChan := make(chan []File)
+	var wg sync.WaitGroup
 
-	for _, path := range ls.paths {
-		path := path // capture range variable
+	for idx := range ls.paths {
+		path := ls.paths[idx]
+
 		g.Go(func() error {
 			files, err := ls.listFiles(ctx, opts, path)
 			if err != nil {
@@ -97,20 +100,25 @@ func (ls *bucketLister) GetFiles(ctx context.Context, opts ListOpts) (Files, err
 		})
 	}
 
-	// Start a goroutine to collect files
+	// collect files
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		for files := range fileChan {
-			out.Files = append(out.Files, files...)
+			for idx := range files {
+				out.Files = append(out.Files, files[idx])
+			}
 		}
 	}()
 
-	// Wait for all goroutines to complete or first error
 	if err := g.Wait(); err != nil {
+		close(fileChan)
 		return out, err
 	}
 
-	// Close channel after all goroutines are done
+	// Close channel and wait for the collection goroutine to finish
 	close(fileChan)
+	wg.Wait()
 
 	return out, nil
 }
