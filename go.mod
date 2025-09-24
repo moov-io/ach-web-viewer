@@ -5,7 +5,7 @@ module github.com/moov-io/ach-web-viewer
 go 1.24.1
 
 require (
-	cloud.google.com/go/storage v1.56.2
+	cloud.google.com/go/storage v1.57.0
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.53.0
@@ -114,7 +114,7 @@ require (
 	google.golang.org/genproto v0.0.0-20250715232539-7130f93afb79 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250818200422-3122310a409c // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250818200422-3122310a409c // indirect
-	google.golang.org/grpc v1.74.2 // indirect
+	google.golang.org/grpc v1.74.3 // indirect
 	google.golang.org/protobuf v1.36.7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
