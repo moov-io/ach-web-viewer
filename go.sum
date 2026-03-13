@@ -73,6 +73,8 @@ cloud.google.com/go/storage v1.61.1 h1:VELCSvZKiSw0AS1k3so5mKGy3CB7bTCYD8EHhTF42
 cloud.google.com/go/storage v1.61.1/go.mod h1:k30/hwYfd0M8aULYbPkQLgNf+SFcdjlRHvLMXggw18E=
 cloud.google.com/go/storage v1.61.2 h1:Cz50LcApIJiLSd0GPZ3aWJWz9mJXXbpxph0JOilwQRY=
 cloud.google.com/go/storage v1.61.2/go.mod h1:JtqK8BBB7TWv0HVGHubtUdzYYrakOQIsMLffZ2Z/HWk=
+cloud.google.com/go/storage v1.61.3 h1:VS//ZfBuPGDvakfD9xyPW1RGF1Vy3BWUoVZXgW1KMOg=
+cloud.google.com/go/storage v1.61.3/go.mod h1:JtqK8BBB7TWv0HVGHubtUdzYYrakOQIsMLffZ2Z/HWk=
 cloud.google.com/go/trace v1.11.6 h1:2O2zjPzqPYAHrn3OKl029qlqG6W8ZdYaOWRyr8NgMT4=
 cloud.google.com/go/trace v1.11.6/go.mod h1:GA855OeDEBiBMzcckLPE2kDunIpC72N+Pq8WFieFjnI=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
