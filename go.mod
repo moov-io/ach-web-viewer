@@ -5,7 +5,7 @@ module github.com/moov-io/ach-web-viewer
 go 1.25.0
 
 require (
-	cloud.google.com/go/storage v1.62.2
+	cloud.google.com/go/storage v1.62.3
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.61.1
