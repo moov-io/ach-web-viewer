@@ -9,7 +9,7 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/markbates/pkger v0.17.1
 	github.com/moov-io/ach v1.61.1
-	github.com/moov-io/base v0.61.2
+	github.com/moov-io/base v0.61.3
 	github.com/moov-io/cryptfs v0.11.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.44.0
