@@ -7,8 +7,8 @@ go 1.25.8
 require (
 	cloud.google.com/go/storage v1.64.0
 	github.com/gorilla/mux v1.8.1
-	github.com/moov-io/ach v1.62.0
-	github.com/moov-io/base v0.62.0
+	github.com/moov-io/ach v1.62.1
+	github.com/moov-io/base v0.62.1
 	github.com/moov-io/cryptfs v0.11.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.45.0
