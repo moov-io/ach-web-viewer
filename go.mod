@@ -7,8 +7,8 @@ go 1.25.8
 require (
 	cloud.google.com/go/storage v1.64.0
 	github.com/gorilla/mux v1.8.1
-	github.com/moov-io/ach v1.62.1
-	github.com/moov-io/base v0.62.1
+	github.com/moov-io/ach v1.63.1
+	github.com/moov-io/base v0.63.0
 	github.com/moov-io/cryptfs v0.11.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.45.0
@@ -77,7 +77,7 @@ require (
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.70.1 // indirect
 	github.com/prometheus/procfs v0.21.1 // indirect
-	github.com/rickar/cal/v2 v2.1.28 // indirect
+	github.com/rickar/cal/v2 v2.1.29 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
