@@ -7,7 +7,7 @@ go 1.25.8
 require (
 	cloud.google.com/go/storage v1.64.0
 	github.com/gorilla/mux v1.8.1
-	github.com/moov-io/ach v1.63.1
+	github.com/moov-io/ach v1.63.2
 	github.com/moov-io/base v0.63.0
 	github.com/moov-io/cryptfs v0.11.0
 	github.com/stretchr/testify v1.11.1
