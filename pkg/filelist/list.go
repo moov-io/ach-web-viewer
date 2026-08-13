@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 )
 
@@ -20,11 +19,35 @@ type Files struct {
 type File struct {
 	Name        string
 	StoragePath string
-	Contents    *ach.File
+	Document    Document
 
-	CreatedAt   time.Time
-	Size        int64
-	RecordCount int64
+	CreatedAt time.Time
+	Size      int64
+}
+
+func (f *File) HasContents() bool {
+	return f != nil && f.Document != nil
+}
+
+func (f *File) Validate() error {
+	if !f.HasContents() {
+		return errMissingFile
+	}
+	return f.Document.Validate()
+}
+
+func (f *File) RecordCount() int64 {
+	if f == nil || f.Document == nil {
+		return 0
+	}
+	return f.Document.RecordCount()
+}
+
+func (f *File) Metadata() map[string]string {
+	if f == nil || f.Document == nil {
+		return nil
+	}
+	return f.Document.Metadata()
 }
 
 type Lister interface {

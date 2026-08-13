@@ -11,7 +11,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/moov-io/ach"
 	"github.com/moov-io/ach-web-viewer/pkg/service"
 	"github.com/moov-io/base/telemetry"
 	"go.opentelemetry.io/otel/attribute"
@@ -136,16 +135,20 @@ func (a *achgatewayLister) GetFile(ctx context.Context, path string) (*File, err
 		return nil, err
 	}
 
-	file, err := ach.NewReader(bytes.NewReader(contents)).Read()
+	name := wrapper.Filename
+	if name == "" {
+		_, name = filepath.Split(path)
+	}
+
+	parsed, err := readFile(name, bytes.NewReader(contents))
 	if err != nil {
 		return nil, err
 	}
 
-	return &File{
-		Name:        wrapper.Filename,
+	return mergeParsed(&File{
+		Name:        name,
 		StoragePath: dir,
-		Contents:    &file,
 		CreatedAt:   wrapper.ModTime,
 		Size:        int64(len(contents)),
-	}, nil
+	}, parsed), nil
 }
