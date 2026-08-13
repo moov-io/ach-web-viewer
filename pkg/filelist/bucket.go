@@ -143,15 +143,14 @@ func (ls *bucketLister) GetFile(ctx context.Context, path string) (*File, error)
 
 	_, name := filepath.Split(path)
 
-	file, err := readFile(name, bytes.NewReader(bs))
+	parsed, err := readFile(name, bytes.NewReader(bs))
 
-	return &File{
+	return mergeParsed(&File{
 		Name:        name,
 		StoragePath: path,
-		Contents:    file,
 		CreatedAt:   rdr.ModTime(),
 		Size:        int64(len(bs)),
-	}, err
+	}, parsed), err
 }
 
 func (ls *bucketLister) maybeDecrypt(r io.Reader) ([]byte, error) {

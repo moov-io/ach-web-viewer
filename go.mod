@@ -2,7 +2,7 @@
 
 module github.com/moov-io/ach-web-viewer
 
-go 1.25.8
+go 1.26.3
 
 require (
 	cloud.google.com/go/storage v1.64.0
@@ -10,6 +10,7 @@ require (
 	github.com/moov-io/ach v1.63.3
 	github.com/moov-io/base v0.63.1
 	github.com/moov-io/cryptfs v0.11.0
+	github.com/moov-io/fedach v0.2.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.45.0
 	go.opentelemetry.io/otel/trace v1.45.0

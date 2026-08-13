@@ -87,18 +87,17 @@ func (ls *filesystemLister) GetFile(ctx context.Context, path string) (*File, er
 
 	_, name := filepath.Split(fd.Name())
 
-	file, err := readFile(name, fd)
+	parsed, err := readFile(name, fd)
 
 	var stat fs.FileInfo
 	if fd != nil {
 		stat, _ = fd.Stat()
 	}
 
-	return &File{
+	return mergeParsed(&File{
 		Name:        name,
 		StoragePath: fd.Name(),
-		Contents:    file,
 		CreatedAt:   stat.ModTime(),
 		Size:        stat.Size(),
-	}, err
+	}, parsed), err
 }

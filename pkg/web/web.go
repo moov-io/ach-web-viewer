@@ -3,7 +3,6 @@ package web
 import (
 	"bytes"
 	"cmp"
-	"errors"
 	"fmt"
 	"html/template"
 	"io"
@@ -179,16 +178,13 @@ func getFile(logger log.Logger, cfg service.DisplayConfig, listers filelist.List
 		w.Header().Set("Content-Type", "text/html")
 
 		var contents bytes.Buffer
-		if file != nil && file.Contents != nil {
-			webdisplay.File(&contents, &cfg, file.Contents)
+		if file.HasContents() {
+			webdisplay.Contents(&contents, &cfg, file)
 		} else {
 			contents.WriteString("file not found...")
 		}
 
-		validationError := errors.New("missing / partial file")
-		if file != nil && file.Contents != nil {
-			validationError = file.Contents.Validate()
-		}
+		validationError := file.Validate()
 
 		err = getFileTmpl.Execute(w, getFileTemplate{
 			Filename:     filepath.Base(fullPath),
@@ -209,10 +205,13 @@ func setMetadata(file *filelist.File) map[string]string {
 
 	if file != nil {
 		out["Created At"] = file.CreatedAt.Format(time.RFC1123)
-		if file.RecordCount > 0 {
-			out["Record Count"] = fmt.Sprintf("%d", file.RecordCount)
+		if n := file.RecordCount(); n > 0 {
+			out["Record Count"] = fmt.Sprintf("%d", n)
 		}
 		out["File Size"] = fmt.Sprintf("%.1f KBs", float64(file.Size)/1024.0)
+		for k, v := range file.Metadata() {
+			out[k] = v
+		}
 	}
 
 	return out
