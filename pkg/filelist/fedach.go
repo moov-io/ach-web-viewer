@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/moov-io/fedach/pkg/ack"
+	"golang.org/x/text/encoding/charmap"
 )
 
 func init() {
@@ -55,6 +56,17 @@ func parseACK(_ string, r io.Reader) (Document, error) {
 	}
 
 	records := ack.Split(bs)
+	if !isAckReport(bs, records) {
+		if looksEncrypted(bs) {
+			return nil, errors.New("file is still GPG-encrypted; decryption failed or no key matched")
+		}
+		// Incoming IBM Connect:Direct FedACH files are often still
+		// EBCDIC CP037 after GPG unwrap (80-byte blocked records).
+		if decoded, ok := decodeEBCDICACK(bs); ok {
+			bs = decoded
+			records = ack.Split(bs)
+		}
+	}
 	if !isAckReport(bs, records) {
 		return nil, errors.New("no FedACH records found")
 	}
@@ -122,6 +134,19 @@ func ackValidationError(fileErrors, batchErrors [][]ack.Record) error {
 		return nil
 	}
 	return errors.New(strings.Join(parts, "; "))
+}
+
+// decodeEBCDICACK converts IBM-037 (US EBCDIC) to UTF-8 when the result
+// looks like a FedACH FAHK acknowledgement.
+func decodeEBCDICACK(bs []byte) ([]byte, bool) {
+	decoded, err := charmap.CodePage037.NewDecoder().Bytes(bs)
+	if err != nil || len(decoded) == 0 {
+		return nil, false
+	}
+	if !isAckReport(decoded, ack.Split(decoded)) {
+		return nil, false
+	}
+	return decoded, true
 }
 
 // isAckReport reports whether the bytes (and any records Split produced)

@@ -1,6 +1,7 @@
 package filelist
 
 import (
+	"bytes"
 	"io"
 	"os"
 	"path/filepath"
@@ -8,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"golang.org/x/text/encoding/charmap"
 )
 
 func TestReadAckFile(t *testing.T) {
@@ -71,6 +73,55 @@ func TestReadFile_ACHStillWorks(t *testing.T) {
 func TestReadFile_UnknownExtension(t *testing.T) {
 	_, err := Read("notes.md", nil)
 	require.EqualError(t, err, "unknown file extension for notes.md")
+}
+
+func TestReadAckFile_EBCDIC(t *testing.T) {
+	ascii, err := os.ReadFile(filepath.Join("..", "..", "testdata", "fedach", "ACHFAHK673960043AIN202608121534803.ack"))
+	require.NoError(t, err)
+
+	ebcdic, err := charmap.CodePage037.NewEncoder().Bytes(ascii)
+	require.NoError(t, err)
+	require.False(t, bytes.Contains(ebcdic, []byte("AJ001A01A08052")))
+
+	parsed, err := Read("ACHFAHK673960043AIN202608130301630.ack", bytes.NewReader(ebcdic))
+	require.NoError(t, err)
+	report, ok := parsed.Document.(*TextReport)
+	require.True(t, ok)
+	require.NoError(t, report.Validate())
+	require.Contains(t, strings.Join(report.Body, "\n"), "ACKNOWLEDGEMENT OF ACH FILE DEPOSITS")
+}
+
+func TestReadAckFile_EBCDICBlocked80(t *testing.T) {
+	ascii, err := os.ReadFile(filepath.Join("..", "..", "testdata", "fedach", "ACHFAHK673960043AIN202608121534803.ack"))
+	require.NoError(t, err)
+
+	// IBM RECFM=FB LRECL=80: the decrypted audittrail payload for this
+	// incoming Connect:Direct file is 6000 bytes (75×80).
+	var blocked []byte
+	for i := 0; i < len(ascii); i += 80 {
+		rec := make([]byte, 80)
+		copy(rec, ascii[i:min(i+80, len(ascii))])
+		for j := range rec {
+			if rec[j] == 0 {
+				rec[j] = ' '
+			}
+		}
+		blocked = append(blocked, rec...)
+	}
+	ebcdic, err := charmap.CodePage037.NewEncoder().Bytes(blocked)
+	require.NoError(t, err)
+	require.Equal(t, 0, len(ebcdic)%80)
+
+	parsed, err := Read("blocked.ack", bytes.NewReader(ebcdic))
+	require.NoError(t, err)
+	require.NoError(t, parsed.Validate())
+}
+
+func TestReadAckFile_StillEncrypted(t *testing.T) {
+	parsed, err := Read("secret.ack", strings.NewReader("-----BEGIN PGP MESSAGE-----\n\nwV4DxOp+\n-----END PGP MESSAGE-----\n"))
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "still GPG-encrypted")
+	require.Nil(t, parsed.Document)
 }
 
 func TestReadAckFile_NotFedACH(t *testing.T) {

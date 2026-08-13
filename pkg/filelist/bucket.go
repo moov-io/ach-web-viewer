@@ -158,13 +158,36 @@ func (ls *bucketLister) maybeDecrypt(r io.Reader) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	var errs []error
 	for i := range ls.cryptors {
-		bs, err := ls.cryptors[i].Reveal(initial)
-		if len(bs) > 0 && err == nil {
-			return bs, err
+		bs, revealErr := ls.cryptors[i].Reveal(initial)
+		if len(bs) > 0 && revealErr == nil {
+			return bs, nil
+		}
+		if revealErr != nil {
+			errs = append(errs, revealErr)
 		}
 	}
-	return initial, err
+
+	// Audittrail objects are stored as armored PGP. If we still have
+	// ciphertext here, a failed Reveal used to fall through and the ACK
+	// parser reported "no FedACH records found".
+	if looksEncrypted(initial) {
+		if len(ls.cryptors) == 0 {
+			return nil, errors.New("file appears encrypted but no decryption keys are configured")
+		}
+		if len(errs) > 0 {
+			return nil, fmt.Errorf("unable to decrypt file: %w", errors.Join(errs...))
+		}
+		return nil, errors.New("unable to decrypt file")
+	}
+
+	return initial, nil
+}
+
+func looksEncrypted(bs []byte) bool {
+	return bytes.HasPrefix(bytes.TrimSpace(bs), []byte("-----BEGIN PGP "))
 }
 
 func (ls *bucketLister) listFiles(ctx context.Context, opts ListOpts, pathPrefix string) ([]File, error) {
