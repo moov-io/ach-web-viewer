@@ -79,6 +79,9 @@ func (ls *filesystemLister) GetFile(ctx context.Context, path string) (*File, er
 	if strings.Contains(path, "..") || strings.HasPrefix(path, "/") {
 		return nil, errors.New("invalid path")
 	}
+	if !ls.underConfiguredRoot(path) {
+		return nil, errors.New("invalid path")
+	}
 
 	fd, err := os.Open(path)
 	if err != nil {
@@ -100,4 +103,29 @@ func (ls *filesystemLister) GetFile(ctx context.Context, path string) (*File, er
 		CreatedAt:   stat.ModTime(),
 		Size:        stat.Size(),
 	}, parsed), err
+}
+
+// underConfiguredRoot reports whether path (after Clean) resolves inside
+// one of the configured filesystem roots. GetFiles only Walks those dirs;
+// GetFile used to os.Open any CWD-relative path that lacked ".." / "/".
+func (ls *filesystemLister) underConfiguredRoot(path string) bool {
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return false
+	}
+	for _, root := range ls.dirs {
+		absRoot, err := filepath.Abs(root)
+		if err != nil {
+			continue
+		}
+		rel, err := filepath.Rel(absRoot, absPath)
+		if err != nil {
+			continue
+		}
+		if rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
+			continue
+		}
+		return true
+	}
+	return false
 }
