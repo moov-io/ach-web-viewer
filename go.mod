@@ -5,13 +5,13 @@ module github.com/moov-io/ach-web-viewer
 go 1.26.3
 
 require (
-	cloud.google.com/go/storage v1.64.0
+	cloud.google.com/go/storage v1.65.0
 	github.com/gorilla/mux v1.8.1
 	github.com/moov-io/ach v1.63.3
 	github.com/moov-io/base v0.63.3
 	github.com/moov-io/cryptfs v0.11.0
 	github.com/moov-io/fedach v0.2.0
-	github.com/stretchr/testify v1.12.0
+	github.com/stretchr/testify v1.12.1
 	go.opentelemetry.io/otel v1.45.0
 	go.opentelemetry.io/otel/trace v1.45.0
 	gocloud.dev v0.46.0
@@ -99,7 +99,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.45.0 // indirect
 	go.opentelemetry.io/otel/sdk/metric v1.45.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.11.0 // indirect
-	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.54.0 // indirect
 	golang.org/x/exp v0.0.0-20260529124908-c761662dc8c9 // indirect
 	golang.org/x/net v0.57.0 // indirect
