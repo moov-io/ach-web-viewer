@@ -2,7 +2,7 @@ package filelist
 
 import (
 	"bytes"
-	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -10,6 +10,13 @@ import (
 	"github.com/moov-io/cryptfs"
 	"github.com/stretchr/testify/require"
 )
+
+func cryptfsTestdataDir(t *testing.T) string {
+	t.Helper()
+	out, err := exec.Command("go", "list", "-m", "-f", "{{.Dir}}", "github.com/moov-io/cryptfs").Output()
+	require.NoError(t, err)
+	return filepath.Join(strings.TrimSpace(string(out)), "internal", "gpgx", "testdata")
+}
 
 func TestMaybeDecrypt_Plaintext(t *testing.T) {
 	ls := &bucketLister{}
@@ -26,14 +33,9 @@ func TestMaybeDecrypt_EncryptedWithoutKeys(t *testing.T) {
 }
 
 func TestMaybeDecrypt_EncryptedWrongKey(t *testing.T) {
-	pub := filepath.Join(os.Getenv("GOPATH"), "pkg", "mod", "github.com", "moov-io", "cryptfs@v0.11.0", "internal", "gpgx", "testdata", "key.pub")
-	priv := filepath.Join(os.Getenv("GOPATH"), "pkg", "mod", "github.com", "moov-io", "cryptfs@v0.11.0", "internal", "gpgx", "testdata", "key.priv")
-	if os.Getenv("GOPATH") == "" {
-		home, err := os.UserHomeDir()
-		require.NoError(t, err)
-		pub = filepath.Join(home, "go", "pkg", "mod", "github.com", "moov-io", "cryptfs@v0.11.0", "internal", "gpgx", "testdata", "key.pub")
-		priv = filepath.Join(home, "go", "pkg", "mod", "github.com", "moov-io", "cryptfs@v0.11.0", "internal", "gpgx", "testdata", "key.priv")
-	}
+	dir := cryptfsTestdataDir(t)
+	pub := filepath.Join(dir, "key.pub")
+	priv := filepath.Join(dir, "key.priv")
 
 	enc, err := cryptfs.FromCryptor(cryptfs.NewGPGEncryptorFile(pub))
 	require.NoError(t, err)
@@ -58,12 +60,7 @@ func TestMaybeDecrypt_EncryptedWrongKey(t *testing.T) {
 }
 
 func TestMaybeDecrypt_EncryptedMatchingKey(t *testing.T) {
-	home, err := os.UserHomeDir()
-	require.NoError(t, err)
-	dir := filepath.Join(home, "go", "pkg", "mod", "github.com", "moov-io", "cryptfs@v0.11.0", "internal", "gpgx", "testdata")
-	if gopath := os.Getenv("GOPATH"); gopath != "" {
-		dir = filepath.Join(gopath, "pkg", "mod", "github.com", "moov-io", "cryptfs@v0.11.0", "internal", "gpgx", "testdata")
-	}
+	dir := cryptfsTestdataDir(t)
 
 	enc, err := cryptfs.FromCryptor(cryptfs.NewGPGEncryptorFile(filepath.Join(dir, "key.pub")))
 	require.NoError(t, err)
