@@ -64,7 +64,8 @@ func bootHTTPServer(name string, routes *mux.Router, errs chan<- error, logger l
 
 func bootAdminServer(errs chan<- error, logger log.Logger, config HTTPConfig) *admin.Server {
 	adminServer, err := admin.New(admin.Opts{
-		Addr: config.Bind.Address,
+		Addr:  config.Bind.Address,
+		Pprof: config.Pprof,
 	})
 	if err != nil {
 		errs <- logger.Fatal().LogErrorf("running admin server: %w", err).Err()

@@ -5,6 +5,7 @@ package service
 import (
 	"time"
 
+	"github.com/moov-io/base/admin"
 	"github.com/moov-io/base/telemetry"
 )
 
@@ -33,6 +34,7 @@ type ServerConfig struct {
 type HTTPConfig struct {
 	Bind     BindAddress
 	BasePath string
+	Pprof    *admin.Pprof
 }
 
 // BindAddress specifies where the http server should bind to.
