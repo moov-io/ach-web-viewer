@@ -7,7 +7,7 @@ go 1.26.3
 require (
 	cloud.google.com/go/storage v1.70.0
 	github.com/gorilla/mux v1.8.1
-	github.com/moov-io/ach v1.66.0
+	github.com/moov-io/ach v1.67.0
 	github.com/moov-io/base v0.66.0
 	github.com/moov-io/cryptfs v0.11.1
 	github.com/moov-io/fedach v0.2.1
@@ -100,7 +100,7 @@ require (
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba // indirect
-	golang.org/x/net v0.61.0 // indirect
+	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/oauth2 v0.37.0 // indirect
 	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
