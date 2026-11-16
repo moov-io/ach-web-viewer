@@ -1,6 +1,15 @@
 # generated-from:0f1cfb3f9faa0c83355794c5720cb80c30b77f4fcb2887d31d2887bd169db413 DO NOT REMOVE, DO UPDATE
 
 PLATFORM=$(shell uname -s | tr '[:upper:]' '[:lower:]')
+ifndef ARCH
+ARCH=$(shell uname -m)
+endif
+ifeq ($(ARCH),x86_64)
+	ARCH=amd64
+endif
+ifeq ($(ARCH),aarch64)
+	ARCH=arm64
+endif
 PWD := $(shell pwd)
 
 ifndef VERSION
@@ -42,15 +51,35 @@ endif
 teardown:
 	-docker compose down --remove-orphans
 
+# Buildx on GitHub-hosted runners attaches provenance attestations by default.
+# That makes ${VERSION}.amd64 a manifest list, and `docker manifest create`
+# fails with "is a manifest list". Keep each arch tag as a single image, and
+# combine them with imagetools so ${VERSION} is linux/amd64 + linux/arm64.
+DOCKER_BUILD_FLAGS ?= --provenance=false --sbom=false
+
 docker:
-	docker build --pull --build-arg VERSION=${VERSION} -t moov/ach-web-viewer:${VERSION} -f Dockerfile .
+	docker build --pull ${DOCKER_BUILD_FLAGS} --build-arg VERSION=${VERSION} -t moov/ach-web-viewer:${VERSION} -f Dockerfile .
 
 docker-push:
 	docker push moov/ach-web-viewer:${VERSION}
 
+.PHONY: docker-hub docker-hub-push docker-hub-manifest
+docker-hub:
+	docker build --pull ${DOCKER_BUILD_FLAGS} --build-arg VERSION=${VERSION} -t moov/ach-web-viewer:${VERSION}.${ARCH} -f Dockerfile .
+
+docker-hub-push:
+	docker push moov/ach-web-viewer:${VERSION}.${ARCH}
+
+docker-hub-manifest:
+	@if docker manifest inspect moov/ach-web-viewer:${VERSION} >/dev/null 2>&1; then \
+		echo "error: docker tag already exists: moov/ach-web-viewer:${VERSION}" >&2; \
+		exit 1; \
+	fi
+	docker buildx imagetools create -t moov/ach-web-viewer:${VERSION} moov/ach-web-viewer:${VERSION}.arm64 moov/ach-web-viewer:${VERSION}.amd64
+
 .PHONY: dev-docker
 dev-docker:
-	docker build --pull --build-arg VERSION=${DEV_VERSION} -t moov/ach-web-viewer:${DEV_VERSION} -f Dockerfile .
+	docker build --pull ${DOCKER_BUILD_FLAGS} --build-arg VERSION=${DEV_VERSION} -t moov/ach-web-viewer:${DEV_VERSION} -f Dockerfile .
 
 .PHONY: dev-push
 dev-push:
