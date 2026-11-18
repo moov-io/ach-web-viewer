@@ -7,7 +7,7 @@ go 1.26.3
 require (
 	cloud.google.com/go/storage v1.71.0
 	github.com/gorilla/mux v1.8.1
-	github.com/moov-io/ach v1.68.0
+	github.com/moov-io/ach v1.68.1
 	github.com/moov-io/base v0.68.2
 	github.com/moov-io/cryptfs v0.12.0
 	github.com/moov-io/fedach v0.2.1
@@ -98,11 +98,11 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.47.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.11.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	golang.org/x/crypto v0.58.0 // indirect
+	golang.org/x/crypto v0.59.0 // indirect
 	golang.org/x/exp v0.0.0-20261014143641-f0251eb4aa3e // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/oauth2 v0.38.0 // indirect
-	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	google.golang.org/api v0.312.0 // indirect
